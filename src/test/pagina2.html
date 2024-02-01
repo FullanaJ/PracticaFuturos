@@ -1,0 +1,1445 @@
+<!doctype html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="profile" href="http://gmpg.org/xfn/11">
+
+    <style type="text/css">.heateorSssInstagramBackground{background:radial-gradient(circle at 30% 107%,#fdf497 0,#fdf497 5%,#fd5949 45%,#d6249f 60%,#285aeb 90%)}.heateor_sss_horizontal_sharing .heateorSssSharing,.heateor_sss_standard_follow_icons_container .heateorSssSharing{color:#fff;border-width:0;border-style:solid;border-color:transparent}.heateor_sss_horizontal_sharing .heateorSssTCBackground{color:#666}.heateor_sss_horizontal_sharing .heateorSssSharing:hover,.heateor_sss_standard_follow_icons_container .heateorSssSharing:hover{border-color:transparent}.heateor_sss_vertical_sharing .heateorSssSharing,.heateor_sss_floating_follow_icons_container .heateorSssSharing{color:#fff;border-width:0;border-style:solid;border-color:transparent}.heateor_sss_vertical_sharing .heateorSssTCBackground{color:#666}.heateor_sss_vertical_sharing .heateorSssSharing:hover,.heateor_sss_floating_follow_icons_container .heateorSssSharing:hover{border-color:transparent}@media screen and (max-width:783px){.heateor_sss_vertical_sharing{display:none!important}}@media screen and (max-width:783px){.heateor_sss_floating_follow_icons_container{display:none!important}}</style><meta name='robots' content='index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' />
+
+	
+	<title>Uso de CompletableFuture en Java - Refactorizando</title>
+	<meta name="description" content="El uso de CompletableFuture en java nos va a permitir crear procesos asíncronos o paralelos para optimizar nuestras aplicaciones" />
+	<link rel="canonical" href="https://refactorizando.com/uso-de-completablefuture-en-java/" />
+	<meta property="og:locale" content="es_ES" />
+	<meta property="og:type" content="article" />
+	<meta property="og:title" content="Uso de CompletableFuture en Java - Refactorizando" />
+	<meta property="og:description" content="El uso de CompletableFuture en java nos va a permitir crear procesos asíncronos o paralelos para optimizar nuestras aplicaciones" />
+	<meta property="og:url" content="https://refactorizando.com/uso-de-completablefuture-en-java/" />
+	<meta property="og:site_name" content="Refactorizando" />
+	<meta property="article:published_time" content="2022-11-21T12:42:54+00:00" />
+	<meta property="article:modified_time" content="2023-07-28T09:41:41+00:00" />
+	<meta property="og:image" content="https://refactorizando.com/wp-content/uploads/2022/11/CompletableFuture.jpg" />
+	<meta property="og:image:width" content="550" />
+	<meta property="og:image:height" content="430" />
+	<meta property="og:image:type" content="image/jpeg" />
+	<meta name="author" content="Noel Rodríguez Calle" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:label1" content="Escrito por" />
+	<meta name="twitter:data1" content="Noel Rodríguez Calle" />
+	<meta name="twitter:label2" content="Tiempo de lectura" />
+	<meta name="twitter:data2" content="9 minutos" />
+	<script type="application/ld+json" class="yoast-schema-graph">{"@context":"https://schema.org","@graph":[{"@type":"Article","@id":"https://refactorizando.com/uso-de-completablefuture-en-java/#article","isPartOf":{"@id":"https://refactorizando.com/uso-de-completablefuture-en-java/"},"author":{"name":"Noel Rodríguez Calle","@id":"https://refactorizando.com/#/schema/person/d640a6abf584849cef317d36521ff42c"},"headline":"Uso de CompletableFuture en Java","datePublished":"2022-11-21T12:42:54+00:00","dateModified":"2023-07-28T09:41:41+00:00","mainEntityOfPage":{"@id":"https://refactorizando.com/uso-de-completablefuture-en-java/"},"wordCount":1633,"commentCount":0,"publisher":{"@id":"https://refactorizando.com/#/schema/person/19d416f554d37907c7cfb2e13cb62647"},"image":{"@id":"https://refactorizando.com/uso-de-completablefuture-en-java/#primaryimage"},"thumbnailUrl":"https://refactorizando.com/wp-content/uploads/2022/11/CompletableFuture.jpg","keywords":[".get","completableFuture","future","runAsync","thenaccept","thenapply"],"articleSection":["Java","Lenguajes"],"inLanguage":"es","potentialAction":[{"@type":"CommentAction","name":"Comment","target":["https://refactorizando.com/uso-de-completablefuture-en-java/#respond"]}]},{"@type":"WebPage","@id":"https://refactorizando.com/uso-de-completablefuture-en-java/","url":"https://refactorizando.com/uso-de-completablefuture-en-java/","name":"Uso de CompletableFuture en Java - Refactorizando","isPartOf":{"@id":"https://refactorizando.com/#website"},"primaryImageOfPage":{"@id":"https://refactorizando.com/uso-de-completablefuture-en-java/#primaryimage"},"image":{"@id":"https://refactorizando.com/uso-de-completablefuture-en-java/#primaryimage"},"thumbnailUrl":"https://refactorizando.com/wp-content/uploads/2022/11/CompletableFuture.jpg","datePublished":"2022-11-21T12:42:54+00:00","dateModified":"2023-07-28T09:41:41+00:00","description":"El uso de CompletableFuture en java nos va a permitir crear procesos asíncronos o paralelos para optimizar nuestras aplicaciones","breadcrumb":{"@id":"https://refactorizando.com/uso-de-completablefuture-en-java/#breadcrumb"},"inLanguage":"es","potentialAction":[{"@type":"ReadAction","target":["https://refactorizando.com/uso-de-completablefuture-en-java/"]}]},{"@type":"ImageObject","inLanguage":"es","@id":"https://refactorizando.com/uso-de-completablefuture-en-java/#primaryimage","url":"https://refactorizando.com/wp-content/uploads/2022/11/CompletableFuture.jpg","contentUrl":"https://refactorizando.com/wp-content/uploads/2022/11/CompletableFuture.jpg","width":550,"height":430,"caption":"CompletableFuture en Java"},{"@type":"BreadcrumbList","@id":"https://refactorizando.com/uso-de-completablefuture-en-java/#breadcrumb","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://refactorizando.com/"},{"@type":"ListItem","position":2,"name":"Uso de CompletableFuture en Java"}]},{"@type":"WebSite","@id":"https://refactorizando.com/#website","url":"https://refactorizando.com/","name":"Refactorizando","description":"Programación, tutoriales y artículos","publisher":{"@id":"https://refactorizando.com/#/schema/person/19d416f554d37907c7cfb2e13cb62647"},"potentialAction":[{"@type":"SearchAction","target":{"@type":"EntryPoint","urlTemplate":"https://refactorizando.com/?s={search_term_string}"},"query-input":"required name=search_term_string"}],"inLanguage":"es"},{"@type":["Person","Organization"],"@id":"https://refactorizando.com/#/schema/person/19d416f554d37907c7cfb2e13cb62647","name":"Noel Rodríguez Calle","image":{"@type":"ImageObject","inLanguage":"es","@id":"https://refactorizando.com/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/f58aee63a3aa896e3ba6c54255c5680d?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/f58aee63a3aa896e3ba6c54255c5680d?s=96&d=mm&r=g","caption":"Noel Rodríguez Calle"},"logo":{"@id":"https://refactorizando.com/#/schema/person/image/"},"sameAs":["https://www.linkedin.com/in/noel-rodrguez-calle-9b846828/"]},{"@type":"Person","@id":"https://refactorizando.com/#/schema/person/d640a6abf584849cef317d36521ff42c","name":"Noel Rodríguez Calle","image":{"@type":"ImageObject","inLanguage":"es","@id":"https://refactorizando.com/#/schema/person/image/","url":"https://secure.gravatar.com/avatar/323402bf7b94fe9f0045779656df66fd?s=96&d=mm&r=g","contentUrl":"https://secure.gravatar.com/avatar/323402bf7b94fe9f0045779656df66fd?s=96&d=mm&r=g","caption":"Noel Rodríguez Calle"},"sameAs":["https://www.linkedin.com/in/noel-rodrguez-calle-9b846828/","trushn45@gmail.com"],"url":"https://refactorizando.com/author/admin/"}]}</script>
+	
+
+
+<link rel='dns-prefetch' href='//www.googletagmanager.com' />
+<link rel='dns-prefetch' href='//fonts.googleapis.com' />
+<link rel='dns-prefetch' href='//pagead2.googlesyndication.com' />
+<link rel='dns-prefetch' href='//fundingchoicesmessages.google.com' />
+<link rel="alternate" type="application/rss+xml" title="Refactorizando &raquo; Feed" href="https://refactorizando.com/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Refactorizando &raquo; Feed de los comentarios" href="https://refactorizando.com/comments/feed/" />
+<link rel="alternate" type="application/rss+xml" title="Refactorizando &raquo; Comentario Uso de CompletableFuture en Java del feed" href="https://refactorizando.com/uso-de-completablefuture-en-java/feed/" />
+<script type="text/javascript">
+/* <![CDATA[ */
+window._wpemojiSettings = {"baseUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/72x72\/","ext":".png","svgUrl":"https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/svg\/","svgExt":".svg","source":{"concatemoji":"https:\/\/refactorizando.com\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.4.3"}};
+/*! This file is auto-generated */
+!function(i,n){var o,s,e;function c(e){try{var t={supportTests:e,timestamp:(new Date).valueOf()};sessionStorage.setItem(o,JSON.stringify(t))}catch(e){}}function p(e,t,n){e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(t,0,0);var t=new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data),r=(e.clearRect(0,0,e.canvas.width,e.canvas.height),e.fillText(n,0,0),new Uint32Array(e.getImageData(0,0,e.canvas.width,e.canvas.height).data));return t.every(function(e,t){return e===r[t]})}function u(e,t,n){switch(t){case"flag":return n(e,"\ud83c\udff3\ufe0f\u200d\u26a7\ufe0f","\ud83c\udff3\ufe0f\u200b\u26a7\ufe0f")?!1:!n(e,"\ud83c\uddfa\ud83c\uddf3","\ud83c\uddfa\u200b\ud83c\uddf3")&&!n(e,"\ud83c\udff4\udb40\udc67\udb40\udc62\udb40\udc65\udb40\udc6e\udb40\udc67\udb40\udc7f","\ud83c\udff4\u200b\udb40\udc67\u200b\udb40\udc62\u200b\udb40\udc65\u200b\udb40\udc6e\u200b\udb40\udc67\u200b\udb40\udc7f");case"emoji":return!n(e,"\ud83e\udef1\ud83c\udffb\u200d\ud83e\udef2\ud83c\udfff","\ud83e\udef1\ud83c\udffb\u200b\ud83e\udef2\ud83c\udfff")}return!1}function f(e,t,n){var r="undefined"!=typeof WorkerGlobalScope&&self instanceof WorkerGlobalScope?new OffscreenCanvas(300,150):i.createElement("canvas"),a=r.getContext("2d",{willReadFrequently:!0}),o=(a.textBaseline="top",a.font="600 32px Arial",{});return e.forEach(function(e){o[e]=t(a,e,n)}),o}function t(e){var t=i.createElement("script");t.src=e,t.defer=!0,i.head.appendChild(t)}"undefined"!=typeof Promise&&(o="wpEmojiSettingsSupports",s=["flag","emoji"],n.supports={everything:!0,everythingExceptFlag:!0},e=new Promise(function(e){i.addEventListener("DOMContentLoaded",e,{once:!0})}),new Promise(function(t){var n=function(){try{var e=JSON.parse(sessionStorage.getItem(o));if("object"==typeof e&&"number"==typeof e.timestamp&&(new Date).valueOf()<e.timestamp+604800&&"object"==typeof e.supportTests)return e.supportTests}catch(e){}return null}();if(!n){if("undefined"!=typeof Worker&&"undefined"!=typeof OffscreenCanvas&&"undefined"!=typeof URL&&URL.createObjectURL&&"undefined"!=typeof Blob)try{var e="postMessage("+f.toString()+"("+[JSON.stringify(s),u.toString(),p.toString()].join(",")+"));",r=new Blob([e],{type:"text/javascript"}),a=new Worker(URL.createObjectURL(r),{name:"wpTestEmojiSupports"});return void(a.onmessage=function(e){c(n=e.data),a.terminate(),t(n)})}catch(e){}c(n=f(s,u,p))}t(n)}).then(function(e){for(var t in e)n.supports[t]=e[t],n.supports.everything=n.supports.everything&&n.supports[t],"flag"!==t&&(n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&n.supports[t]);n.supports.everythingExceptFlag=n.supports.everythingExceptFlag&&!n.supports.flag,n.DOMReady=!1,n.readyCallback=function(){n.DOMReady=!0}}).then(function(){return e}).then(function(){var e;n.supports.everything||(n.readyCallback(),(e=n.source||{}).concatemoji?t(e.concatemoji):e.wpemoji&&e.twemoji&&(t(e.twemoji),t(e.wpemoji)))}))}((window,document),window._wpemojiSettings);
+/* ]]> */
+</script>
+<style id='wp-emoji-styles-inline-css' type='text/css'>img.wp-smiley,img.emoji{display:inline!important;border:none!important;box-shadow:none!important;height:1em!important;width:1em!important;margin:0 0.07em!important;vertical-align:-0.1em!important;background:none!important;padding:0!important}</style>
+<link rel='stylesheet' id='wpacu-combined-css-head-1' href='https://refactorizando.com/wp-content/cache/asset-cleanup/css/head-e83a9b0f8aeb9d46acbce69e1d5edfe5587f7268.css' type='text/css' media='all' />
+<style id='classic-theme-styles-inline-css' type='text/css'>/*! This file is auto-generated */
+.wp-block-button__link{color:#fff;background-color:#32373c;border-radius:9999px;box-shadow:none;text-decoration:none;padding:calc(.667em + 2px) calc(1.333em + 2px);font-size:1.125em}.wp-block-file__button{background:#32373c;color:#fff;text-decoration:none}</style>
+<style id='global-styles-inline-css' type='text/css'>body{--wp--preset--color--black:#000;--wp--preset--color--cyan-bluish-gray:#abb8c3;--wp--preset--color--white:#ffffff;--wp--preset--color--pale-pink:#f78da7;--wp--preset--color--vivid-red:#cf2e2e;--wp--preset--color--luminous-vivid-orange:#ff6900;--wp--preset--color--luminous-vivid-amber:#fcb900;--wp--preset--color--light-green-cyan:#7bdcb5;--wp--preset--color--vivid-green-cyan:#00d084;--wp--preset--color--pale-cyan-blue:#8ed1fc;--wp--preset--color--vivid-cyan-blue:#0693e3;--wp--preset--color--vivid-purple:#9b51e0;--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple:linear-gradient(135deg,rgba(6,147,227,1) 0%,rgb(155,81,224) 100%);--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan:linear-gradient(135deg,rgb(122,220,180) 0%,rgb(0,208,130) 100%);--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange:linear-gradient(135deg,rgba(252,185,0,1) 0%,rgba(255,105,0,1) 100%);--wp--preset--gradient--luminous-vivid-orange-to-vivid-red:linear-gradient(135deg,rgba(255,105,0,1) 0%,rgb(207,46,46) 100%);--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray:linear-gradient(135deg,rgb(238,238,238) 0%,rgb(169,184,195) 100%);--wp--preset--gradient--cool-to-warm-spectrum:linear-gradient(135deg,rgb(74,234,220) 0%,rgb(151,120,209) 20%,rgb(207,42,186) 40%,rgb(238,44,130) 60%,rgb(251,105,98) 80%,rgb(254,248,76) 100%);--wp--preset--gradient--blush-light-purple:linear-gradient(135deg,rgb(255,206,236) 0%,rgb(152,150,240) 100%);--wp--preset--gradient--blush-bordeaux:linear-gradient(135deg,rgb(254,205,165) 0%,rgb(254,45,45) 50%,rgb(107,0,62) 100%);--wp--preset--gradient--luminous-dusk:linear-gradient(135deg,rgb(255,203,112) 0%,rgb(199,81,192) 50%,rgb(65,88,208) 100%);--wp--preset--gradient--pale-ocean:linear-gradient(135deg,rgb(255,245,203) 0%,rgb(182,227,212) 50%,rgb(51,167,181) 100%);--wp--preset--gradient--electric-grass:linear-gradient(135deg,rgb(202,248,128) 0%,rgb(113,206,126) 100%);--wp--preset--gradient--midnight:linear-gradient(135deg,rgb(2,3,129) 0%,rgb(40,116,252) 100%);--wp--preset--font-size--small:13px;--wp--preset--font-size--medium:20px;--wp--preset--font-size--large:36px;--wp--preset--font-size--x-large:42px;--wp--preset--spacing--20:0.44rem;--wp--preset--spacing--30:0.67rem;--wp--preset--spacing--40:1rem;--wp--preset--spacing--50:1.5rem;--wp--preset--spacing--60:2.25rem;--wp--preset--spacing--70:3.38rem;--wp--preset--spacing--80:5.06rem;--wp--preset--shadow--natural:6px 6px 9px rgba(0, 0, 0, 0.2);--wp--preset--shadow--deep:12px 12px 50px rgba(0, 0, 0, 0.4);--wp--preset--shadow--sharp:6px 6px 0px rgba(0, 0, 0, 0.2);--wp--preset--shadow--outlined:6px 6px 0px -3px rgba(255, 255, 255, 1), 6px 6px rgba(0, 0, 0, 1);--wp--preset--shadow--crisp:6px 6px 0px rgba(0, 0, 0, 1)}:where(.is-layout-flex){gap:.5em}:where(.is-layout-grid){gap:.5em}body .is-layout-flow>.alignleft{float:left;margin-inline-start:0;margin-inline-end:2em}body .is-layout-flow>.alignright{float:right;margin-inline-start:2em;margin-inline-end:0}body .is-layout-flow>.aligncenter{margin-left:auto!important;margin-right:auto!important}body .is-layout-constrained>.alignleft{float:left;margin-inline-start:0;margin-inline-end:2em}body .is-layout-constrained>.alignright{float:right;margin-inline-start:2em;margin-inline-end:0}body .is-layout-constrained>.aligncenter{margin-left:auto!important;margin-right:auto!important}body .is-layout-constrained>:where(:not(.alignleft):not(.alignright):not(.alignfull)){max-width:var(--wp--style--global--content-size);margin-left:auto!important;margin-right:auto!important}body .is-layout-constrained>.alignwide{max-width:var(--wp--style--global--wide-size)}body .is-layout-flex{display:flex}body .is-layout-flex{flex-wrap:wrap;align-items:center}body .is-layout-flex>*{margin:0}body .is-layout-grid{display:grid}body .is-layout-grid>*{margin:0}:where(.wp-block-columns.is-layout-flex){gap:2em}:where(.wp-block-columns.is-layout-grid){gap:2em}:where(.wp-block-post-template.is-layout-flex){gap:1.25em}:where(.wp-block-post-template.is-layout-grid){gap:1.25em}.has-black-color{color:var(--wp--preset--color--black)!important}.has-cyan-bluish-gray-color{color:var(--wp--preset--color--cyan-bluish-gray)!important}.has-white-color{color:var(--wp--preset--color--white)!important}.has-pale-pink-color{color:var(--wp--preset--color--pale-pink)!important}.has-vivid-red-color{color:var(--wp--preset--color--vivid-red)!important}.has-luminous-vivid-orange-color{color:var(--wp--preset--color--luminous-vivid-orange)!important}.has-luminous-vivid-amber-color{color:var(--wp--preset--color--luminous-vivid-amber)!important}.has-light-green-cyan-color{color:var(--wp--preset--color--light-green-cyan)!important}.has-vivid-green-cyan-color{color:var(--wp--preset--color--vivid-green-cyan)!important}.has-pale-cyan-blue-color{color:var(--wp--preset--color--pale-cyan-blue)!important}.has-vivid-cyan-blue-color{color:var(--wp--preset--color--vivid-cyan-blue)!important}.has-vivid-purple-color{color:var(--wp--preset--color--vivid-purple)!important}.has-black-background-color{background-color:var(--wp--preset--color--black)!important}.has-cyan-bluish-gray-background-color{background-color:var(--wp--preset--color--cyan-bluish-gray)!important}.has-white-background-color{background-color:var(--wp--preset--color--white)!important}.has-pale-pink-background-color{background-color:var(--wp--preset--color--pale-pink)!important}.has-vivid-red-background-color{background-color:var(--wp--preset--color--vivid-red)!important}.has-luminous-vivid-orange-background-color{background-color:var(--wp--preset--color--luminous-vivid-orange)!important}.has-luminous-vivid-amber-background-color{background-color:var(--wp--preset--color--luminous-vivid-amber)!important}.has-light-green-cyan-background-color{background-color:var(--wp--preset--color--light-green-cyan)!important}.has-vivid-green-cyan-background-color{background-color:var(--wp--preset--color--vivid-green-cyan)!important}.has-pale-cyan-blue-background-color{background-color:var(--wp--preset--color--pale-cyan-blue)!important}.has-vivid-cyan-blue-background-color{background-color:var(--wp--preset--color--vivid-cyan-blue)!important}.has-vivid-purple-background-color{background-color:var(--wp--preset--color--vivid-purple)!important}.has-black-border-color{border-color:var(--wp--preset--color--black)!important}.has-cyan-bluish-gray-border-color{border-color:var(--wp--preset--color--cyan-bluish-gray)!important}.has-white-border-color{border-color:var(--wp--preset--color--white)!important}.has-pale-pink-border-color{border-color:var(--wp--preset--color--pale-pink)!important}.has-vivid-red-border-color{border-color:var(--wp--preset--color--vivid-red)!important}.has-luminous-vivid-orange-border-color{border-color:var(--wp--preset--color--luminous-vivid-orange)!important}.has-luminous-vivid-amber-border-color{border-color:var(--wp--preset--color--luminous-vivid-amber)!important}.has-light-green-cyan-border-color{border-color:var(--wp--preset--color--light-green-cyan)!important}.has-vivid-green-cyan-border-color{border-color:var(--wp--preset--color--vivid-green-cyan)!important}.has-pale-cyan-blue-border-color{border-color:var(--wp--preset--color--pale-cyan-blue)!important}.has-vivid-cyan-blue-border-color{border-color:var(--wp--preset--color--vivid-cyan-blue)!important}.has-vivid-purple-border-color{border-color:var(--wp--preset--color--vivid-purple)!important}.has-vivid-cyan-blue-to-vivid-purple-gradient-background{background:var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple)!important}.has-light-green-cyan-to-vivid-green-cyan-gradient-background{background:var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan)!important}.has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background{background:var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange)!important}.has-luminous-vivid-orange-to-vivid-red-gradient-background{background:var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red)!important}.has-very-light-gray-to-cyan-bluish-gray-gradient-background{background:var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray)!important}.has-cool-to-warm-spectrum-gradient-background{background:var(--wp--preset--gradient--cool-to-warm-spectrum)!important}.has-blush-light-purple-gradient-background{background:var(--wp--preset--gradient--blush-light-purple)!important}.has-blush-bordeaux-gradient-background{background:var(--wp--preset--gradient--blush-bordeaux)!important}.has-luminous-dusk-gradient-background{background:var(--wp--preset--gradient--luminous-dusk)!important}.has-pale-ocean-gradient-background{background:var(--wp--preset--gradient--pale-ocean)!important}.has-electric-grass-gradient-background{background:var(--wp--preset--gradient--electric-grass)!important}.has-midnight-gradient-background{background:var(--wp--preset--gradient--midnight)!important}.has-small-font-size{font-size:var(--wp--preset--font-size--small)!important}.has-medium-font-size{font-size:var(--wp--preset--font-size--medium)!important}.has-large-font-size{font-size:var(--wp--preset--font-size--large)!important}.has-x-large-font-size{font-size:var(--wp--preset--font-size--x-large)!important}.wp-block-navigation a:where(:not(.wp-element-button)){color:inherit}:where(.wp-block-post-template.is-layout-flex){gap:1.25em}:where(.wp-block-post-template.is-layout-grid){gap:1.25em}:where(.wp-block-columns.is-layout-flex){gap:2em}:where(.wp-block-columns.is-layout-grid){gap:2em}.wp-block-pullquote{font-size:1.5em;line-height:1.6}</style>
+<script id='wpacu-google-fonts-async-load' type='text/javascript'>
+WebFontConfig={google:{families:['Lato:300,400,400italic,700,900,latin,latin-ext','Oswald:300,400,700,latin,latin-ext','Source+Sans+Pro:400,400i,700,700i,latin,latin-ext']}};(function(wpacuD){var wpacuWf=wpacuD.createElement('script'),wpacuS=wpacuD.scripts[0];wpacuWf.src=('https:'===document.location.protocol?'https':'http')+'://ajax.googleapis.com/ajax/libs/webfont/1.6.26/webfont.js';wpacuWf.async=!0;wpacuS.parentNode.insertBefore(wpacuWf,wpacuS)})(document);
+</script>
+
+
+
+<style  type='text/css'  data-wpacu-inline-css-file='1'>
+.slick-slider{position:relative;display:block;box-sizing:border-box;-webkit-user-select:none;-moz-user-select:none;-ms-user-select:none;user-select:none;-webkit-touch-callout:none;-khtml-user-select:none;-ms-touch-action:pan-y;touch-action:pan-y;-webkit-tap-highlight-color:transparent}.slick-list{position:relative;display:block;overflow:hidden;margin:0;padding:0}.slick-list:focus{outline:none}.slick-list.dragging{cursor:pointer;cursor:hand}.slick-slider .slick-track,.slick-slider .slick-list{-webkit-transform:translate3d(0,0,0);-moz-transform:translate3d(0,0,0);-ms-transform:translate3d(0,0,0);-o-transform:translate3d(0,0,0);transform:translate3d(0,0,0)}.slick-track{position:relative;top:0;left:0;display:block}.slick-track:before,.slick-track:after{display:table;content:''}.slick-track:after{clear:both}.slick-loading .slick-track{visibility:hidden}.slick-slide{display:none;float:left;height:100%;min-height:1px}[dir='rtl'] .slick-slide{float:right}.slick-slide img{display:block}.slick-slide.slick-loading img{display:none}.slick-slide.dragging img{pointer-events:none}.slick-initialized .slick-slide{display:block}.slick-loading .slick-slide{visibility:hidden}.slick-vertical .slick-slide{display:block;height:auto;border:1px solid transparent}.slick-arrow.slick-hidden{display:none}
+</style>
+
+
+
+
+<script   type="text/javascript" src="https://refactorizando.com/wp-includes/js/jquery/jquery.min.js?ver=3.7.1" id="jquery-core-js"></script>
+<script   type="text/javascript" src="https://refactorizando.com/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.4.1" id="jquery-migrate-js"></script>
+
+
+<script   type="text/javascript" src="https://www.googletagmanager.com/gtag/js?id=GT-M3L74T4" id="google_gtagjs-js" async></script>
+<script   type="text/javascript" id="google_gtagjs-js-after">
+/* <![CDATA[ */
+window.dataLayer = window.dataLayer || [];function gtag(){dataLayer.push(arguments);}
+gtag('set', 'linker', {"domains":["refactorizando.com"]} );
+gtag("js", new Date());
+gtag("set", "developer_id.dZTNiMT", true);
+gtag("config", "GT-M3L74T4");
+/* ]]> */
+</script>
+
+
+<link rel="https://api.w.org/" href="https://refactorizando.com/wp-json/" /><link rel="alternate" type="application/json" href="https://refactorizando.com/wp-json/wp/v2/posts/3528" /><link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://refactorizando.com/xmlrpc.php?rsd" />
+<meta name="generator" content="WordPress 6.4.3" />
+<link rel='shortlink' href='https://refactorizando.com/?p=3528' />
+<link rel="alternate" type="application/json+oembed" href="https://refactorizando.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Frefactorizando.com%2Fuso-de-completablefuture-en-java%2F" />
+<link rel="alternate" type="text/xml+oembed" href="https://refactorizando.com/wp-json/oembed/1.0/embed?url=https%3A%2F%2Frefactorizando.com%2Fuso-de-completablefuture-en-java%2F&#038;format=xml" />
+<meta name="generator" content="Site Kit by Google 1.119.0" /><script type='text/javascript' data-cfasync='false'>var _mmunch={'front':!1,'page':!1,'post':!1,'category':!1,'author':!1,'search':!1,'attachment':!1,'tag':!1};_mmunch.post=!0;_mmunch.postData={"ID":3528,"post_name":"uso-de-completablefuture-en-java","post_title":"Uso de CompletableFuture en Java","post_type":"post","post_author":"1","post_status":"publish"};_mmunch.postCategories=[{"term_id":22,"name":"Java","slug":"java","term_group":0,"term_taxonomy_id":22,"taxonomy":"category","description":"","parent":21,"count":90,"filter":"raw","cat_ID":22,"category_count":90,"category_description":"","cat_name":"Java","category_nicename":"java","category_parent":21},{"term_id":21,"name":"Lenguajes","slug":"lenguajes","term_group":0,"term_taxonomy_id":21,"taxonomy":"category","description":"","parent":0,"count":81,"filter":"raw","cat_ID":21,"category_count":81,"category_description":"","cat_name":"Lenguajes","category_nicename":"lenguajes","category_parent":0}];_mmunch.postTags=[{"term_id":649,"name":".get","slug":"get","term_group":0,"term_taxonomy_id":649,"taxonomy":"post_tag","description":"","parent":0,"count":1,"filter":"raw"},{"term_id":614,"name":"completableFuture","slug":"completablefuture","term_group":0,"term_taxonomy_id":614,"taxonomy":"post_tag","description":"","parent":0,"count":2,"filter":"raw"},{"term_id":613,"name":"future","slug":"future","term_group":0,"term_taxonomy_id":613,"taxonomy":"post_tag","description":"","parent":0,"count":2,"filter":"raw"},{"term_id":650,"name":"runAsync","slug":"runasync","term_group":0,"term_taxonomy_id":650,"taxonomy":"post_tag","description":"","parent":0,"count":1,"filter":"raw"},{"term_id":648,"name":"thenaccept","slug":"thenaccept","term_group":0,"term_taxonomy_id":648,"taxonomy":"post_tag","description":"","parent":0,"count":1,"filter":"raw"},{"term_id":647,"name":"thenapply","slug":"thenapply","term_group":0,"term_taxonomy_id":647,"taxonomy":"post_tag","description":"","parent":0,"count":1,"filter":"raw"}];_mmunch.postAuthor={"name":"Noel Rodr\u00edguez Calle","ID":1}</script><script data-cfasync="false" src="//a.mailmunch.co/app/v1/site.js" id="mailmunch-script" data-plugin="mc_mm" data-mailmunch-site-id="940306" async></script>		<script>document.documentElement.className=document.documentElement.className.replace('no-js','js')</script>
+				<style>.no-js img.lazyload{display:none}figure.wp-block-image img.lazyloading{min-width:150px}.lazyload,.lazyloading{opacity:0}.lazyloaded{opacity:1;transition:opacity 400ms;transition-delay:0ms}</style>
+		<link rel="pingback" href="https://refactorizando.com/xmlrpc.php">
+
+<meta name="google-adsense-platform-account" content="ca-host-pub-2644536267352236">
+<meta name="google-adsense-platform-domain" content="sitekit.withgoogle.com">
+
+        <style type="text/css">.site-title a,.site-header .site-branding .site-title a:visited,.site-header .site-branding .site-title a:hover,.site-description{color:#000}.site-branding .site-title{font-size:48px}@media only screen and (max-width:640px){.header-layout-3 .site-header .site-branding .site-title,.site-branding .site-title{font-size:60px}}@media only screen and (max-width:375px){.header-layout-3 .site-header .site-branding .site-title,.site-branding .site-title{font-size:50px}}</style>
+        
+
+<script type="text/javascript" async="async" src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-8124800970351382&amp;host=ca-host-pub-2644536267352236" crossorigin="anonymous"></script>
+
+
+
+
+<script async src="https://fundingchoicesmessages.google.com/i/pub-8124800970351382?ers=1" nonce="XPz0890EMSAZo7nwNJ4bIQ"></script><script nonce="XPz0890EMSAZo7nwNJ4bIQ">(function(){function signalGooglefcPresent(){if(!window.frames.googlefcPresent){if(document.body){const iframe=document.createElement('iframe');iframe.style='width: 0; height: 0; border: none; z-index: -1000; left: -1000px; top: -1000px;';iframe.style.display='none';iframe.name='googlefcPresent';document.body.appendChild(iframe)}else{setTimeout(signalGooglefcPresent,0)}}}signalGooglefcPresent()})()</script>
+
+
+
+<script>(function(){'use strict';function aa(a){var b=0;return function(){return b<a.length?{done:!1,value:a[b++]}:{done:!0}}}var ba="function"==typeof Object.defineProperties?Object.defineProperty:function(a,b,c){if(a==Array.prototype||a==Object.prototype)return a;a[b]=c.value;return a};function ea(a){a=["object"==typeof globalThis&&globalThis,a,"object"==typeof window&&window,"object"==typeof self&&self,"object"==typeof global&&global];for(var b=0;b<a.length;++b){var c=a[b];if(c&&c.Math==Math)return c}throw Error("Cannot find global object")}var fa=ea(this);function ha(a,b){if(b)a:{var c=fa;a=a.split(".");for(var d=0;d<a.length-1;d++){var e=a[d];if(!(e in c))break a;c=c[e]}a=a[a.length-1];d=c[a];b=b(d);b!=d&&null!=b&&ba(c,a,{configurable:!0,writable:!0,value:b})}}
+var ia="function"==typeof Object.create?Object.create:function(a){function b(){}b.prototype=a;return new b},l;if("function"==typeof Object.setPrototypeOf)l=Object.setPrototypeOf;else{var m;a:{var ja={a:!0},ka={};try{ka.__proto__=ja;m=ka.a;break a}catch(a){}m=!1}l=m?function(a,b){a.__proto__=b;if(a.__proto__!==b)throw new TypeError(a+" is not extensible");return a}:null}var la=l;function n(a,b){a.prototype=ia(b.prototype);a.prototype.constructor=a;if(la)la(a,b);else for(var c in b)if("prototype"!=c)if(Object.defineProperties){var d=Object.getOwnPropertyDescriptor(b,c);d&&Object.defineProperty(a,c,d)}else a[c]=b[c];a.A=b.prototype}function ma(){for(var a=Number(this),b=[],c=a;c<arguments.length;c++)b[c-a]=arguments[c];return b}
+var na="function"==typeof Object.assign?Object.assign:function(a,b){for(var c=1;c<arguments.length;c++){var d=arguments[c];if(d)for(var e in d)Object.prototype.hasOwnProperty.call(d,e)&&(a[e]=d[e])}return a};ha("Object.assign",function(a){return a||na});var p=this||self;function q(a){return a};var t,u;a:{for(var oa=["CLOSURE_FLAGS"],v=p,x=0;x<oa.length;x++)if(v=v[oa[x]],null==v){u=null;break a}u=v}var pa=u&&u[610401301];t=null!=pa?pa:!1;var z,qa=p.navigator;z=qa?qa.userAgentData||null:null;function A(a){return t?z?z.brands.some(function(b){return(b=b.brand)&&-1!=b.indexOf(a)}):!1:!1}function B(a){var b;a:{if(b=p.navigator)if(b=b.userAgent)break a;b=""}return-1!=b.indexOf(a)};function C(){return t?!!z&&0<z.brands.length:!1}function D(){return C()?A("Chromium"):(B("Chrome")||B("CriOS"))&&!(C()?0:B("Edge"))||B("Silk")};var ra=C()?!1:B("Trident")||B("MSIE");!B("Android")||D();D();B("Safari")&&(D()||(C()?0:B("Coast"))||(C()?0:B("Opera"))||(C()?0:B("Edge"))||(C()?A("Microsoft Edge"):B("Edg/"))||C()&&A("Opera"));var sa={},E=null;var ta="undefined"!==typeof Uint8Array,ua=!ra&&"function"===typeof btoa;var F="function"===typeof Symbol&&"symbol"===typeof Symbol()?Symbol():void 0,G=F?function(a,b){a[F]|=b}:function(a,b){void 0!==a.g?a.g|=b:Object.defineProperties(a,{g:{value:b,configurable:!0,writable:!0,enumerable:!1}})};function va(a){var b=H(a);1!==(b&1)&&(Object.isFrozen(a)&&(a=Array.prototype.slice.call(a)),I(a,b|1))}
+var H=F?function(a){return a[F]|0}:function(a){return a.g|0},J=F?function(a){return a[F]}:function(a){return a.g},I=F?function(a,b){a[F]=b}:function(a,b){void 0!==a.g?a.g=b:Object.defineProperties(a,{g:{value:b,configurable:!0,writable:!0,enumerable:!1}})};function wa(){var a=[];G(a,1);return a}function xa(a,b){I(b,(a|0)&-99)}function K(a,b){I(b,(a|34)&-73)}function L(a){a=a>>11&1023;return 0===a?536870912:a};var M={};function N(a){return null!==a&&"object"===typeof a&&!Array.isArray(a)&&a.constructor===Object}var O,ya=[];I(ya,39);O=Object.freeze(ya);var P;function Q(a,b){P=b;a=new a(b);P=void 0;return a}
+function R(a,b,c){null==a&&(a=P);P=void 0;if(null==a){var d=96;c?(a=[c],d|=512):a=[];b&&(d=d&-2095105|(b&1023)<<11)}else{if(!Array.isArray(a))throw Error();d=H(a);if(d&64)return a;d|=64;if(c&&(d|=512,c!==a[0]))throw Error();a:{c=a;var e=c.length;if(e){var f=e-1,g=c[f];if(N(g)){d|=256;b=(d>>9&1)-1;e=f-b;1024<=e&&(za(c,b,g),e=1023);d=d&-2095105|(e&1023)<<11;break a}}b&&(g=(d>>9&1)-1,b=Math.max(b,e-g),1024<b&&(za(c,g,{}),d|=256,b=1023),d=d&-2095105|(b&1023)<<11)}}I(a,d);return a}
+function za(a,b,c){for(var d=1023+b,e=a.length,f=d;f<e;f++){var g=a[f];null!=g&&g!==c&&(c[f-b]=g)}a.length=d+1;a[d]=c};function Aa(a){switch(typeof a){case "number":return isFinite(a)?a:String(a);case "boolean":return a?1:0;case "object":if(a&&!Array.isArray(a)&&ta&&null!=a&&a instanceof Uint8Array){if(ua){for(var b="",c=0,d=a.length-10240;c<d;)b+=String.fromCharCode.apply(null,a.subarray(c,c+=10240));b+=String.fromCharCode.apply(null,c?a.subarray(c):a);a=btoa(b)}else{void 0===b&&(b=0);if(!E){E={};c="ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789".split("");d=["+/=","+/","-_=","-_.","-_"];for(var e=0;5>e;e++){var f=c.concat(d[e].split(""));sa[e]=f;for(var g=0;g<f.length;g++){var h=f[g];void 0===E[h]&&(E[h]=g)}}}b=sa[b];c=Array(Math.floor(a.length/3));d=b[64]||"";for(e=f=0;f<a.length-2;f+=3){var k=a[f],w=a[f+1];h=a[f+2];g=b[k>>2];k=b[(k&3)<<4|w>>4];w=b[(w&15)<<2|h>>6];h=b[h&63];c[e++]=g+k+w+h}g=0;h=d;switch(a.length-f){case 2:g=a[f+1],h=b[(g&15)<<2]||d;case 1:a=a[f],c[e]=b[a>>2]+b[(a&3)<<4|g>>4]+h+d}a=c.join("")}return a}}return a};function Ba(a,b,c){a=Array.prototype.slice.call(a);var d=a.length,e=b&256?a[d-1]:void 0;d+=e?-1:0;for(b=b&512?1:0;b<d;b++)a[b]=c(a[b]);if(e){b=a[b]={};for(var f in e)Object.prototype.hasOwnProperty.call(e,f)&&(b[f]=c(e[f]))}return a}function Da(a,b,c,d,e,f){if(null!=a){if(Array.isArray(a))a=e&&0==a.length&&H(a)&1?void 0:f&&H(a)&2?a:Ea(a,b,c,void 0!==d,e,f);else if(N(a)){var g={},h;for(h in a)Object.prototype.hasOwnProperty.call(a,h)&&(g[h]=Da(a[h],b,c,d,e,f));a=g}else a=b(a,d);return a}}
+function Ea(a,b,c,d,e,f){var g=d||c?H(a):0;d=d?!!(g&32):void 0;a=Array.prototype.slice.call(a);for(var h=0;h<a.length;h++)a[h]=Da(a[h],b,c,d,e,f);c&&c(g,a);return a}function Fa(a){return a.s===M?a.toJSON():Aa(a)};function Ga(a,b,c){c=void 0===c?K:c;if(null!=a){if(ta&&a instanceof Uint8Array)return b?a:new Uint8Array(a);if(Array.isArray(a)){var d=H(a);if(d&2)return a;if(b&&!(d&64)&&(d&32||0===d))return I(a,d|34),a;a=Ea(a,Ga,d&4?K:c,!0,!1,!0);b=H(a);b&4&&b&2&&Object.freeze(a);return a}a.s===M&&(b=a.h,c=J(b),a=c&2?a:Q(a.constructor,Ha(b,c,!0)));return a}}function Ha(a,b,c){var d=c||b&2?K:xa,e=!!(b&32);a=Ba(a,b,function(f){return Ga(f,e,d)});G(a,32|(c?2:0));return a};function Ia(a,b){a=a.h;return Ja(a,J(a),b)}function Ja(a,b,c,d){if(-1===c)return null;if(c>=L(b)){if(b&256)return a[a.length-1][c]}else{var e=a.length;if(d&&b&256&&(d=a[e-1][c],null!=d))return d;b=c+((b>>9&1)-1);if(b<e)return a[b]}}function Ka(a,b,c,d,e){var f=L(b);if(c>=f||e){e=b;if(b&256)f=a[a.length-1];else{if(null==d)return;f=a[f+((b>>9&1)-1)]={};e|=256}f[c]=d;e&=-1025;e!==b&&I(a,e)}else a[c+((b>>9&1)-1)]=d,b&256&&(d=a[a.length-1],c in d&&delete d[c]),b&1024&&I(a,b&-1025)}
+function La(a,b){var c=Ma;var d=void 0===d?!1:d;var e=a.h;var f=J(e),g=Ja(e,f,b,d);var h=!1;if(null==g||"object"!==typeof g||(h=Array.isArray(g))||g.s!==M)if(h){var k=h=H(g);0===k&&(k|=f&32);k|=f&2;k!==h&&I(g,k);c=new c(g)}else c=void 0;else c=g;c!==g&&null!=c&&Ka(e,f,b,c,d);e=c;if(null==e)return e;a=a.h;f=J(a);f&2||(g=e,c=g.h,h=J(c),g=h&2?Q(g.constructor,Ha(c,h,!1)):g,g!==e&&(e=g,Ka(a,f,b,e,d)));return e}function Na(a,b){a=Ia(a,b);return null==a||"string"===typeof a?a:void 0}
+function Oa(a,b){a=Ia(a,b);return null!=a?a:0}function S(a,b){a=Na(a,b);return null!=a?a:""};function T(a,b,c){this.h=R(a,b,c)}T.prototype.toJSON=function(){var a=Ea(this.h,Fa,void 0,void 0,!1,!1);return Pa(this,a,!0)};T.prototype.s=M;T.prototype.toString=function(){return Pa(this,this.h,!1).toString()};function Pa(a,b,c){var d=a.constructor.v,e=L(J(c?a.h:b)),f=!1;if(d){if(!c){b=Array.prototype.slice.call(b);var g;if(b.length&&N(g=b[b.length-1]))for(f=0;f<d.length;f++)if(d[f]>=e){Object.assign(b[b.length-1]={},g);break}f=!0}e=b;c=!c;g=J(a.h);a=L(g);g=(g>>9&1)-1;for(var h,k,w=0;w<d.length;w++)if(k=d[w],k<a){k+=g;var r=e[k];null==r?e[k]=c?O:wa():c&&r!==O&&va(r)}else h||(r=void 0,e.length&&N(r=e[e.length-1])?h=r:e.push(h={})),r=h[k],null==h[k]?h[k]=c?O:wa():c&&r!==O&&va(r)}d=b.length;if(!d)return b;var Ca;if(N(h=b[d-1])){a:{var y=h;e={};c=!1;for(var ca in y)Object.prototype.hasOwnProperty.call(y,ca)&&(a=y[ca],Array.isArray(a)&&a!=a&&(c=!0),null!=a?e[ca]=a:c=!0);if(c){for(var rb in e){y=e;break a}y=null}}y!=h&&(Ca=!0);d--}for(;0<d;d--){h=b[d-1];if(null!=h)break;var cb=!0}if(!Ca&&!cb)return b;var da;f?da=b:da=Array.prototype.slice.call(b,0,d);b=da;f&&(b.length=d);y&&b.push(y);return b};function Qa(a){return function(b){if(null==b||""==b)b=new a;else{b=JSON.parse(b);if(!Array.isArray(b))throw Error(void 0);G(b,32);b=Q(a,b)}return b}};function Ra(a){this.h=R(a)}n(Ra,T);var Sa=Qa(Ra);var U;function V(a){this.g=a}V.prototype.toString=function(){return this.g+""};var Ta={};function Ua(){return Math.floor(2147483648*Math.random()).toString(36)+Math.abs(Math.floor(2147483648*Math.random())^Date.now()).toString(36)};function Va(a,b){b=String(b);"application/xhtml+xml"===a.contentType&&(b=b.toLowerCase());return a.createElement(b)}function Wa(a){this.g=a||p.document||document}Wa.prototype.appendChild=function(a,b){a.appendChild(b)};function Xa(a,b){a.src=b instanceof V&&b.constructor===V?b.g:"type_error:TrustedResourceUrl";var c,d;(c=(b=null==(d=(c=(a.ownerDocument&&a.ownerDocument.defaultView||window).document).querySelector)?void 0:d.call(c,"script[nonce]"))?b.nonce||b.getAttribute("nonce")||"":"")&&a.setAttribute("nonce",c)};function Ya(a){a=void 0===a?document:a;return a.createElement("script")};function Za(a,b,c,d,e,f){try{var g=a.g,h=Ya(g);h.async=!0;Xa(h,b);g.head.appendChild(h);h.addEventListener("load",function(){e();d&&g.head.removeChild(h)});h.addEventListener("error",function(){0<c?Za(a,b,c-1,d,e,f):(d&&g.head.removeChild(h),f())})}catch(k){f()}};var $a=p.atob("aHR0cHM6Ly93d3cuZ3N0YXRpYy5jb20vaW1hZ2VzL2ljb25zL21hdGVyaWFsL3N5c3RlbS8xeC93YXJuaW5nX2FtYmVyXzI0ZHAucG5n"),ab=p.atob("WW91IGFyZSBzZWVpbmcgdGhpcyBtZXNzYWdlIGJlY2F1c2UgYWQgb3Igc2NyaXB0IGJsb2NraW5nIHNvZnR3YXJlIGlzIGludGVyZmVyaW5nIHdpdGggdGhpcyBwYWdlLg=="),bb=p.atob("RGlzYWJsZSBhbnkgYWQgb3Igc2NyaXB0IGJsb2NraW5nIHNvZnR3YXJlLCB0aGVuIHJlbG9hZCB0aGlzIHBhZ2Uu");function db(a,b,c){this.i=a;this.l=new Wa(this.i);this.g=null;this.j=[];this.m=!1;this.u=b;this.o=c}
+function eb(a){if(a.i.body&&!a.m){var b=function(){fb(a);p.setTimeout(function(){return gb(a,3)},50)};Za(a.l,a.u,2,!0,function(){p[a.o]||b()},b);a.m=!0}}
+function fb(a){for(var b=W(1,5),c=0;c<b;c++){var d=X(a);a.i.body.appendChild(d);a.j.push(d)}b=X(a);b.style.bottom="0";b.style.left="0";b.style.position="fixed";b.style.width=W(100,110).toString()+"%";b.style.zIndex=W(2147483544,2147483644).toString();b.style["background-color"]=hb(249,259,242,252,219,229);b.style["box-shadow"]="0 0 12px #888";b.style.color=hb(0,10,0,10,0,10);b.style.display="flex";b.style["justify-content"]="center";b.style["font-family"]="Roboto, Arial";c=X(a);c.style.width=W(80,85).toString()+"%";c.style.maxWidth=W(750,775).toString()+"px";c.style.margin="24px";c.style.display="flex";c.style["align-items"]="flex-start";c.style["justify-content"]="center";d=Va(a.l.g,"IMG");d.className=Ua();d.src=$a;d.alt="Warning icon";d.style.height="24px";d.style.width="24px";d.style["padding-right"]="16px";var e=X(a),f=X(a);f.style["font-weight"]="bold";f.textContent=ab;var g=X(a);g.textContent=bb;Y(a,e,f);Y(a,e,g);Y(a,c,d);Y(a,c,e);Y(a,b,c);a.g=b;a.i.body.appendChild(a.g);b=W(1,5);for(c=0;c<b;c++)d=X(a),a.i.body.appendChild(d),a.j.push(d)}function Y(a,b,c){for(var d=W(1,5),e=0;e<d;e++){var f=X(a);b.appendChild(f)}b.appendChild(c);c=W(1,5);for(d=0;d<c;d++)e=X(a),b.appendChild(e)}function W(a,b){return Math.floor(a+Math.random()*(b-a))}function hb(a,b,c,d,e,f){return"rgb("+W(Math.max(a,0),Math.min(b,255)).toString()+","+W(Math.max(c,0),Math.min(d,255)).toString()+","+W(Math.max(e,0),Math.min(f,255)).toString()+")"}function X(a){a=Va(a.l.g,"DIV");a.className=Ua();return a}
+function gb(a,b){0>=b||null!=a.g&&0!=a.g.offsetHeight&&0!=a.g.offsetWidth||(ib(a),fb(a),p.setTimeout(function(){return gb(a,b-1)},50))}
+function ib(a){var b=a.j;var c="undefined"!=typeof Symbol&&Symbol.iterator&&b[Symbol.iterator];if(c)b=c.call(b);else if("number"==typeof b.length)b={next:aa(b)};else throw Error(String(b)+" is not an iterable or ArrayLike");for(c=b.next();!c.done;c=b.next())(c=c.value)&&c.parentNode&&c.parentNode.removeChild(c);a.j=[];(b=a.g)&&b.parentNode&&b.parentNode.removeChild(b);a.g=null};function jb(a,b,c,d,e){function f(k){document.body?g(document.body):0<k?p.setTimeout(function(){f(k-1)},e):b()}function g(k){k.appendChild(h);p.setTimeout(function(){h?(0!==h.offsetHeight&&0!==h.offsetWidth?b():a(),h.parentNode&&h.parentNode.removeChild(h)):a()},d)}var h=kb(c);f(3)}function kb(a){var b=document.createElement("div");b.className=a;b.style.width="1px";b.style.height="1px";b.style.position="absolute";b.style.left="-10000px";b.style.top="-10000px";b.style.zIndex="-10000";return b};function Ma(a){this.h=R(a)}n(Ma,T);function lb(a){this.h=R(a)}n(lb,T);var mb=Qa(lb);function nb(a){a=Na(a,4)||"";if(void 0===U){var b=null;var c=p.trustedTypes;if(c&&c.createPolicy){try{b=c.createPolicy("goog#html",{createHTML:q,createScript:q,createScriptURL:q})}catch(d){p.console&&p.console.error(d.message)}U=b}else U=b}a=(b=U)?b.createScriptURL(a):a;return new V(a,Ta)};function ob(a,b){this.m=a;this.o=new Wa(a.document);this.g=b;this.j=S(this.g,1);this.u=nb(La(this.g,2));this.i=!1;b=nb(La(this.g,13));this.l=new db(a.document,b,S(this.g,12))}ob.prototype.start=function(){pb(this)};function pb(a){qb(a);Za(a.o,a.u,3,!1,function(){a:{var b=a.j;var c=p.btoa(b);if(c=p[c]){try{var d=Sa(p.atob(c))}catch(e){b=!1;break a}b=b===Na(d,1)}else b=!1}b?Z(a,S(a.g,14)):(Z(a,S(a.g,8)),eb(a.l))},function(){jb(function(){Z(a,S(a.g,7));eb(a.l)},function(){return Z(a,S(a.g,6))},S(a.g,9),Oa(a.g,10),Oa(a.g,11))})}function Z(a,b){a.i||(a.i=!0,a=new a.m.XMLHttpRequest,a.open("GET",b,!0),a.send())}function qb(a){var b=p.btoa(a.j);a.m[b]&&Z(a,S(a.g,5))};(function(a,b){p[a]=function(){var c=ma.apply(0,arguments);p[a]=function(){};b.apply(null,c)}})("__h82AlnkH6D91__",function(a){"function"===typeof window.atob&&(new ob(window,mb(window.atob(a)))).start()})}).call(this);window.__h82AlnkH6D91__("WyJwdWItODEyNDgwMDk3MDM1MTM4MiIsW251bGwsbnVsbCxudWxsLCJodHRwczovL2Z1bmRpbmdjaG9pY2VzbWVzc2FnZXMuZ29vZ2xlLmNvbS9iL3B1Yi04MTI0ODAwOTcwMzUxMzgyIl0sbnVsbCxudWxsLCJodHRwczovL2Z1bmRpbmdjaG9pY2VzbWVzc2FnZXMuZ29vZ2xlLmNvbS9lbC9BR1NLV3hXcU9sT2kwUzNoV3ZpcjJwelNYaWs5YmR5LXNmQXNoRmlBWV9LMzFwSWtXSW1wUjZBS2djSFhYY2dkZXBNaU9tOUdLVzFfLTlDcVptWkNURDVSX21neE1RXHUwMDNkXHUwMDNkP3RlXHUwMDNkVE9LRU5fRVhQT1NFRCIsImh0dHBzOi8vZnVuZGluZ2Nob2ljZXNtZXNzYWdlcy5nb29nbGUuY29tL2VsL0FHU0tXeFUyQkFsRFdSSnVUeG11MDJVaDJkd2Z3bXd0UC1Rd0FLNzdiOFhaQzB4ejd0MVFhb2R2SHRzWjZkUUhCbkk1WDBNTnJhYWxDTHg4STZQdzdSTE5mVklRYWdcdTAwM2RcdTAwM2Q/YWJcdTAwM2QxXHUwMDI2c2JmXHUwMDNkMSIsImh0dHBzOi8vZnVuZGluZ2Nob2ljZXNtZXNzYWdlcy5nb29nbGUuY29tL2VsL0FHU0tXeFUteV9QajA2dGdKbXRRLS1RMi1ZZU9HS2otcmR4QzcxR0Etb0NQckR0Uk5kYXROTWZ6Tk9BbWpJV1FOb1gyQmMwRGJxcHRicTBLYWdtSkFpM3JpbkNZU1FcdTAwM2RcdTAwM2Q/YWJcdTAwM2QyXHUwMDI2c2JmXHUwMDNkMSIsImh0dHBzOi8vZnVuZGluZ2Nob2ljZXNtZXNzYWdlcy5nb29nbGUuY29tL2VsL0FHU0tXeFVySmd1SUR1ckV5Sjd5VzdGUEwtVllFWG1pNEdkOENBcEhnSnd1aGJBYTJhTmxKY3RvZEx1M3cyMC1xZnRydWpNamhwN0czMkgzWUg2Y29IT2VUZ3I4MHdcdTAwM2RcdTAwM2Q/c2JmXHUwMDNkMiIsImRpdi1ncHQtYWQiLDIwLDEwMCwiY0hWaUxUZ3hNalE0TURBNU56QXpOVEV6T0RJXHUwMDNkIixbbnVsbCxudWxsLG51bGwsImh0dHBzOi8vd3d3LmdzdGF0aWMuY29tLzBlbW4vZi9wL3B1Yi04MTI0ODAwOTcwMzUxMzgyLmpzP3VzcXBcdTAwM2RDQUkiXSwiaHR0cHM6Ly9mdW5kaW5nY2hvaWNlc21lc3NhZ2VzLmdvb2dsZS5jb20vZWwvQUdTS1d4Vng2Ql93RjRIZlg0M0lfS2xWaGZaTFhqcXVETVpzaG5TM3g4RW5zdFhoeGVkeFQtM20tRDNiTTNoY0JkRnRNVXZITzl4TTllUkRpb25uTUtVWm9YdXk0d1x1MDAzZFx1MDAzZCJd")</script>
+
+<link rel="icon" href="https://refactorizando.com/wp-content/uploads/2020/04/cropped-logo-1-32x32.jpeg" sizes="32x32" />
+<link rel="icon" href="https://refactorizando.com/wp-content/uploads/2020/04/cropped-logo-1-192x192.jpeg" sizes="192x192" />
+<link rel="apple-touch-icon" href="https://refactorizando.com/wp-content/uploads/2020/04/cropped-logo-1-180x180.jpeg" />
+<meta name="msapplication-TileImage" content="https://refactorizando.com/wp-content/uploads/2020/04/cropped-logo-1-270x270.jpeg" />
+</head>
+
+<body class="post-template-default single single-post postid-3528 single-format-standard wp-embed-responsive default-content-layout single-content-mode-boxed header-image-default align-content-left">
+
+
+<div id="page" class="site">
+    <a class="skip-link screen-reader-text" href="#content">Saltar al contenido</a>
+
+<div class="header-layout-3">
+<header id="masthead" class="site-header">
+        <div class="masthead-banner " data-background="">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="site-branding">
+                                                    <p class="site-title font-family-1">
+                                <a href="https://refactorizando.com/"
+                                   rel="home">Refactorizando</a>
+                            </p>
+                        
+                                                    <p class="site-description">Programación, tutoriales y artículos</p>
+                                            </div>
+                </div>
+                <div class="col-md-12">
+                                    </div>
+            </div>
+        </div>
+    </div>
+    <nav id="site-navigation" class="main-navigation">
+        <div class="container">
+            <div class="row">
+                <div class="kol-12">
+                    <div class="navigation-container">
+
+
+
+                        <span class="toggle-menu" aria-controls="primary-menu" aria-expanded="false">
+                                <span class="screen-reader-text">Menú principal</span>
+                                 <i class="ham"></i>
+                        </span>
+                        <span class="af-mobile-site-title-wrap">
+                                                        <p class="site-title font-family-1">
+                                <a href="https://refactorizando.com/"
+                                   rel="home">Refactorizando</a>
+                            </p>
+                        </span>
+                        <div class="menu main-menu"><ul id="primary-menu" class="menu"><li id="menu-item-660" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-660"><a href="https://refactorizando.com/category/framework/">Frameworks</a>
+<ul class="sub-menu">
+	<li id="menu-item-661" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-661"><a href="https://refactorizando.com/category/framework/spring-framework/">Spring</a></li>
+	<li id="menu-item-663" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-663"><a href="https://refactorizando.com/category/framework/quarkus/">Quarkus</a></li>
+	<li id="menu-item-664" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-664"><a href="https://refactorizando.com/category/framework/micronaut/">Micronaut</a></li>
+	<li id="menu-item-681" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-681"><a href="https://refactorizando.com/category/framework/hibernate/">Hibernate</a></li>
+</ul>
+</li>
+<li id="menu-item-666" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-666"><a href="https://refactorizando.com/category/patrones-y-arquitectura/">Patrones y Arquitectura</a></li>
+<li id="menu-item-669" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-has-children menu-item-669"><a href="https://refactorizando.com/category/plataformas/">Plataformas</a>
+<ul class="sub-menu">
+	<li id="menu-item-670" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-670"><a href="https://refactorizando.com/category/plataformas/kubernetes/">Kubernetes</a></li>
+	<li id="menu-item-1711" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-1711"><a href="https://refactorizando.com/category/plataformas/kafka/">kafka</a></li>
+</ul>
+</li>
+<li id="menu-item-672" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-672"><a href="https://refactorizando.com/category/base-de-datos/">Base De Datos</a></li>
+<li id="menu-item-674" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-has-children menu-item-674"><a href="https://refactorizando.com/category/lenguajes/">Lenguajes</a>
+<ul class="sub-menu">
+	<li id="menu-item-675" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-675"><a href="https://refactorizando.com/category/graphql/">GraphQL</a></li>
+	<li id="menu-item-676" class="menu-item menu-item-type-taxonomy menu-item-object-category menu-item-676"><a href="https://refactorizando.com/category/lenguajes/kotlin/">Kotlin</a></li>
+	<li id="menu-item-680" class="menu-item menu-item-type-taxonomy menu-item-object-category current-post-ancestor current-menu-parent current-post-parent menu-item-680"><a href="https://refactorizando.com/category/lenguajes/java/">Java</a></li>
+</ul>
+</li>
+</ul></div>
+                        <div class="cart-search">
+
+                            <div class="af-search-wrap">
+                                <div class="search-overlay">
+                                    <a href="#" title="Search" class="search-icon">
+                                        <i class="fa fa-search"></i>
+                                    </a>
+                                    <div class="af-search-form">
+                                        <form role="search" method="get" class="search-form" action="https://refactorizando.com/">
+				<label>
+					<span class="screen-reader-text">Buscar:</span>
+					<input type="search" class="search-field" placeholder="Buscar &hellip;" value="" name="s" />
+				</label>
+				<input type="submit" class="search-submit" value="Buscar" />
+			</form>                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header>
+
+
+</div>
+
+
+
+    <div id="content" class="container">
+        <div class="row">
+                <div id="primary" class="content-area">
+                    <main id="main" class="site-main">
+
+                                                    <article id="post-3528" class="af-single-article post-3528 post type-post status-publish format-standard has-post-thumbnail hentry category-java category-lenguajes tag-get tag-completablefuture tag-future tag-runasync tag-thenaccept tag-thenapply">
+                                <div class="entry-content-wrap">
+                                    <header class="entry-header">
+
+    <div class="header-details-wrapper">
+        <div class="entry-header-details">
+                            <div class="figure-categories figure-categories-bg">
+                                        <ul class="cat-links"><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/lenguajes/java/" alt="Ver todas las publicaciones en Java"> 
+                                 Java
+                             </a>
+                        </li><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/lenguajes/" alt="Ver todas las publicaciones en Lenguajes"> 
+                                 Lenguajes
+                             </a>
+                        </li></ul>                </div>
+                        <h1 class="entry-title">Uso de CompletableFuture en Java</h1>
+            
+                
+        <span class="author-links">
+                            <span class="item-metadata posts-date">
+                <i class="far fa-clock"></i>
+                    noviembre 21, 2022            </span>
+                        
+                <span class="item-metadata posts-author">
+            <a href="https://refactorizando.com/author/admin/">
+                Noel Rodríguez Calle            </a>
+        </span>
+                    </span>
+                        
+
+                    </div>
+    </div>
+
+        <div class="aft-post-thumbnail-wrapper">    
+                    <div class="post-thumbnail full-width-image">
+                    <img width="550" height="430"   alt="CompletableFuture en Java" decoding="async" fetchpriority="high" data-srcset="https://refactorizando.com/wp-content/uploads/2022/11/CompletableFuture.jpg 550w, https://refactorizando.com/wp-content/uploads/2022/11/CompletableFuture-300x235.jpg 300w"  data-src="https://refactorizando.com/wp-content/uploads/2022/11/CompletableFuture.jpg" data-sizes="(max-width: 550px) 100vw, 550px" class="attachment-covernews-featured size-covernews-featured wp-post-image lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /><noscript><img width="550" height="430" src="https://refactorizando.com/wp-content/uploads/2022/11/CompletableFuture.jpg" class="attachment-covernews-featured size-covernews-featured wp-post-image" alt="CompletableFuture en Java" decoding="async" fetchpriority="high" srcset="https://refactorizando.com/wp-content/uploads/2022/11/CompletableFuture.jpg 550w, https://refactorizando.com/wp-content/uploads/2022/11/CompletableFuture-300x235.jpg 300w" sizes="(max-width: 550px) 100vw, 550px" /></noscript>                </div>
+            
+                        <span class="aft-image-caption">
+                <p>
+                    CompletableFuture en Java                </p>
+            </span>
+        </div>
+    </header>                                    
+
+    <div class="entry-content">
+        <div class='heateorSssClear'></div><div  class='heateor_sss_sharing_container heateor_sss_horizontal_sharing' heateor-sss-data-href='https://refactorizando.com/uso-de-completablefuture-en-java/'><div class='heateor_sss_sharing_title' style="font-weight:bold" ></div><ul class="heateor_sss_sharing_ul"><li class="heateorSssSharingRound"><i style="width:73px;height:33px;" alt="Facebook" Title="Facebook" class="heateorSssSharing heateorSssFacebookBackground" onclick='heateorSssPopup("https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Frefactorizando.com%2Fuso-de-completablefuture-en-java%2F")'><ss style="display:block;" class="heateorSssSharingSvg heateorSssFacebookSvg"></ss></i></li><li class="heateorSssSharingRound"><i style="width:73px;height:33px;" alt="Twitter" Title="Twitter" class="heateorSssSharing heateorSssTwitterBackground" onclick='heateorSssPopup("http://twitter.com/intent/tweet?text=Uso%20de%20CompletableFuture%20en%20Java&url=https%3A%2F%2Frefactorizando.com%2Fuso-de-completablefuture-en-java%2F")'><ss style="display:block;" class="heateorSssSharingSvg heateorSssTwitterSvg"></ss></i></li><li class="heateorSssSharingRound"><i style="width:73px;height:33px;" alt="Linkedin" Title="Linkedin" class="heateorSssSharing heateorSssLinkedinBackground" onclick='heateorSssPopup("http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Frefactorizando.com%2Fuso-de-completablefuture-en-java%2F&title=Uso%20de%20CompletableFuture%20en%20Java")'><ss style="display:block;" class="heateorSssSharingSvg heateorSssLinkedinSvg"></ss></i></li><li class="heateorSssSharingRound"><i style="width:73px;height:33px;" alt="Whatsapp" Title="Whatsapp" class="heateorSssSharing heateorSssWhatsappBackground" onclick='heateorSssPopup("https://web.whatsapp.com/send?text=Uso%20de%20CompletableFuture%20en%20Java https%3A%2F%2Frefactorizando.com%2Fuso-de-completablefuture-en-java%2F")'><ss style="display:block" class="heateorSssSharingSvg heateorSssWhatsappSvg"></ss></i></li></ul><div class="heateorSssClear"></div></div><div class='heateorSssClear'></div><br/><div class='mailmunch-forms-before-post' style='display: none !important;'></div>
+<p>En este nuevo artículo vamos a ver el <strong>uso de CompletableFuture en Java</strong>, funcionalidad que fue introducida en Java 8 como mejoras para el tratamiento de la concurrencia. </p>
+
+
+
+<h2 class="wp-block-heading">¿Qué es CompletableFuture?</h2>
+
+
+
+<p><strong>La clase Clase  CompletableFuture tiene como objetivo ser usada para programación asíncrona</strong>. La programación asíncrona en Java nos va a permitir ejecutar un proceso o tarea paralela en un Thread diferente al principal, y la clase CompletableFuture nos va a permitir ver la resolución de la ejecución de ese Thread informándonos si la ejecución ha tenido éxito o ha fallado.</p>
+
+
+
+<p><strong>CompletableFuture es una mejora del Api de Futuros de Java (Future),</strong> la cual fue introducida en Java 5, pero no tuvieron en cuenta maneras de combinar diferentes llamadas o gestionar errores. Es por ese motivo que se creo CompletableFuture en Java 8. </p>
+
+
+
+<p>CompletableFuture implementa la interfaz CompletionStage, y tiene múltiples métodos para combinar, ejecutar y componer llamadas.</p>
+
+
+
+<h2 class="wp-block-heading">Uso de CompletableFuture como  Future</h2>
+
+
+
+<p>Como hemos comentado, <strong>CompletableFuture hace uso de la interfaz de Future</strong>, por lo que podemos hacer uso de CompletableFuture como si fuera Future. Esto es de gran utilidad para evitar tener que realizar migraciones de código.</p>
+
+
+
+<p>Si tenemos un método que devuelve ya un Future podemos encapsular la respuesta del método, y únicamente si queremos tocar el interior:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">  public Future&lt;String> sayHi(){
+    CompletableFuture&lt;String> completableFuture = new CompletableFuture&lt;>();
+
+    Future&lt;Boolean> future = Executors.newCachedThreadPool().submit(() -> {
+      Thread.sleep(2000); //schhhhhh
+      return completableFuture.complete("Say Hi");
+    });
+
+    return completableFuture;
+  }</pre>
+
+
+
+<p>Este método parte de un CompletableFuture para devolver un Future, para ello hacemos uso de complete. Hay que tener en cuenta que al hacer uso de complete se devuelve un valor boolean. </p>
+
+
+
+<p>Hacemos uso de un ExecutorService para ejecutar el completableFuture y poder añadir un sleep.</p>
+
+
+
+<h2 class="wp-block-heading">Crear un CompletableFuture</h2>
+
+
+
+<p>Vamos a ver las diferentes maneras de crear un CompletableFuture (en el ejemplo anterior ya hemos visto la básica). </p>
+
+
+
+<h3 class="wp-block-heading">Crear un CompletableFuture básico</h3>
+
+
+
+<p>La manera más fácil y básica de crear un CompletableFuture es la siguiente:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">CompletableFuture&lt;String> completableFuture = new CompletableFuture&lt;String>();</pre>
+
+
+
+<p>Esta es la manera más sencilla de crear un <strong>CompletableFuture y para obtener su resultado haríamos uso de .get().</strong></p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">String result = completableFuture.get()
+</pre>
+
+
+
+<p>Con .get() esperamos hasta que el futuro este resuelto, esto nos puede provocar un bloqueo, por lo que si queremos completar un Futuro a mano podemos hacer:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">completableFuture.complete("finish")</pre>
+
+
+
+<p>Hay que tener en cuenta que al <strong>hacer uso de get o complete, hacemos un bloqueo de la llamada</strong>. </p>
+
+
+
+<h3 class="wp-block-heading">Crear CompletableFuture con runAsync</h3>
+
+
+
+<p>runAsync es uno de lo métodos de CompletableFuture que nos va a permitir hacer uso de procesamiento asíncrono. El método <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/CompletableFuture.html#runAsync-java.lang.Runnable-">runAsync</a> va a ejecutar una tarea sin que esperemos una respuesta. Haría algo parecido a lo que hace <a href="https://refactorizando.com/llamadas-asincronas-async-spring/">Spring con @Async.</a></p>
+
+
+
+<p>Vamos a ver un ejemplo de CompletableFuture con runAsync:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">CompletableFuture&lt;Void> myFuture = CompletableFuture.runAsync(() -> {
+ 
+    userRepository.save(user);
+    
+   log.debug("THREAD WORKER {} this is a different thread", Thread.currentThread().getName());
+});</pre>
+
+
+
+<h3 class="wp-block-heading">Crear CompletableFuture con supplyAsync() </h3>
+
+
+
+<p>Cuando ejecutamos un <strong>proceso asíncrono pero queremos que el CompletableFuture nos devuelva el resultado, debemos hacer uso de supplyAsync()</strong>. Es decir, vamos a querer ejecutar una tarea o proceso de manera asíncrona, y cuando haya finalizado queremos el resultado. </p>
+
+
+
+<p>SupplyAsync(), devuelve un completableFuture&lt;T&gt; partiendo de un <a href="https://refactorizando.com/java-supplier-interface/">supplier</a>&lt;T&gt;. Vamos a ver un ejemplo con Lambdas de Java, ten en cuenta que todo lo realizado con Lambdas se puede hacer también sin ello:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">CompletableFuture&lt;User> myFuture = CompletableFuture.supplyAsync(() -> {
+
+    log.debug("THREAD WORKER {} this is a different thread", Thread.currentThread().getName());
+
+    return userRepository.save(user);
+});
+</pre>
+
+
+
+<p>Cuando hacemos uso de completableFuture, no es necesario que realicemos ningún tratamiento de hilos, es decir, que la gestión de los hilos se puede gestionar de manera programática o delegar. En el caso en el que queramos realizar una mayor gestión sobre los Threads nos podemos crear un Thread Pool y utilizarlos de ese Pool, ya que tanto runAsync como supplyAsync aceptan un executor:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">static CompletableFuture&lt;Void>	runAsync(Runnable runnable)
+static CompletableFuture&lt;Void>	runAsync(Runnable runnable, Executor executor)
+static &lt;U> CompletableFuture&lt;U>	supplyAsync(Supplier&lt;U> supplier)
+static &lt;U> CompletableFuture&lt;U>	supplyAsync(Supplier&lt;U> supplier, Executor executor)</pre>
+
+
+
+<p>Vamos a ver un ejemplo en el que le pasemos un Executor:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Executor executor = Executors.newFixedThreadPool(10);
+CompletableFuture&lt;User> myFuture = CompletableFuture.supplyAsync(() -> {
+
+    log.debug("THREAD WORKER {} this is a different thread", Thread.currentThread().getName());
+
+    return userRepository.save(user);
+}, executor);
+</pre>
+
+
+
+<p>En el caso en el que se use el Pool por defecto será usado el <a href="https://docs.oracle.com/javase/8/docs/api/java/util/concurrent/ForkJoinPool.html#commonPool--">ForkJoinPool</a>.</p>
+
+
+
+<h2 class="wp-block-heading">Obtener resultado de CompletableFuture</h2>
+
+
+
+<h3 class="wp-block-heading">Obtener CompletableFuture con get()</h3>
+
+
+
+<p>Cuando trabajamos con CompletableFuture lo ideal es que la llamada sea asíncrona y no tener que esperar por la respuesta, pero para el caso en el que necesitemos la respuesta para un procesamiento o un tratamiento posterior podemos hacer uso de .get(). Por ejemplo:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Executor executor = Executors.newFixedThreadPool(10);
+CompletableFuture&lt;User> myFuture = CompletableFuture.supplyAsync(() -> {
+
+    log.debug("THREAD WORKER {} this is a different thread", Thread.currentThread().getName());
+
+    return userRepository.save(user);
+}, executor);
+
+User user = myFuture.get();</pre>
+
+
+
+<p>Con el get anterior lo que hemos hecho ha sido un bloqueo hasta obtener el resultado de User. </p>
+
+
+
+<p>Para evitar estos bloqueos, podemos hacer uso de otros métodos como  thenApply(), thenAccept() y thenRun().</p>
+
+
+
+<h3 class="wp-block-heading">Obtener resultado de CompletableFuture con thenApply() </h3>
+
+
+
+<p>Al aplicar <strong>thenApply() en un CompletableFuture lo que vamos a hacer es obtener el resultado cuando el proceso ha finalizado</strong>. ThenApply() es una interfaz funcional que acepta un argumento y produce un resultado. Vamos a ver un ejemplo:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Executor executor = Executors.newFixedThreadPool(10);
+CompletableFuture&lt;User> myFuture = CompletableFuture.supplyAsync(() -> {
+
+    log.debug("THREAD WORKER {} this is a different thread", Thread.currentThread().getName());
+
+    return userRepository.save(user);
+}, executor)
+.thenApply(user -> {
+   return "name " + user.getName();
+});
+
+User user = myFuture.get();</pre>
+
+
+
+<p>Con el .get() anterior bloqueamos pero como ya ha llegado el futuro no tenemos que esperar.</p>
+
+
+
+<h3 class="wp-block-heading">Uso de thenApplyAsync()</h3>
+
+
+
+<p>Con el ejemplo anterior, cuando hemos ejecutado la interfaz funcional thenApply() se ha ejecutado en el mismo Thread que la ejecución de supplyAsync(). Pero si queremos que nuestro método thenApply() se ejecute en otro Thread aparte podríamos hacer uso de thenApplyAsync(), vamos a ver un ejemplo:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Executor executor = Executors.newFixedThreadPool(10);
+CompletableFuture&lt;User> myFuture = CompletableFuture.supplyAsync(() -> {
+
+    log.debug("THREAD WORKER {} this is a different thread", Thread.currentThread().getName());
+
+    return userRepository.save(user);
+})
+.thenApplyAsync(user -> {
+    log.debug("THREAD WORKER 2 {} this is a different thread", Thread.currentThread().getName());
+
+   return "name " + user.getName();
+
+},executor);</pre>
+
+
+
+<h3 class="wp-block-heading">Resultado de CompletableFuture con thenAccept()</h3>
+
+
+
+<p>El uso de <strong>thenAccept() nos va a permitir ejecutar código una vez se ha finalizado el futuro</strong> y obtener el valor, para ello haremos uso de thenAccept() y si quieres completar el futuro se hace uso de thenRun().</p>
+
+
+
+<p>Vamos a ver un ejemplo:</p><div class='mailmunch-forms-in-post-middle' style='display: none !important;'></div>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Executor executor = Executors.newFixedThreadPool(10);
+CompletableFuture&lt;Void> myFuture = CompletableFuture.supplyAsync(() -> {
+
+    log.debug("THREAD WORKER {} this is a different thread", Thread.currentThread().getName());
+
+    return userRepository.save(user);
+}, executor)
+.thenAccept(user -> {
+   System.out.println("then accept");
+});</pre>
+
+
+
+<p>El código anterior al hacer uso de thenAccept obtenemos un CompletableFuture con el valor de User. </p>
+
+
+
+<p>La diferencia con thenApply es que thenApply devuelve un objeto y thenAccept devuelve Void.</p>
+
+
+
+<p>Finalmente, si no queremos procesar ni obtener valor al final, podemos usar thenRun(), la cual es una función lambda. </p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">Executor executor = Executors.newFixedThreadPool(10);
+CompletableFuture&lt;User> myFuture = CompletableFuture.supplyAsync(() -> {
+
+    log.debug("THREAD WORKER {} this is a different thread", Thread.currentThread().getName());
+
+    return userRepository.save(user);
+}, executor)
+.thenRun(() -> System.out.println("Computation finished."));
+</pre>
+
+
+
+<p>Y a continuación podríamos hacer uso de .get() para obtener el valor. </p>
+
+
+
+<h2 class="wp-block-heading">Combinar CompletableFuture</h2>
+
+
+
+<h3 class="wp-block-heading">Combinar CompletableFuture con thenCompose()</h3>
+
+
+
+<p>Cuando queramos ejecutar dos futuros que dependen el uno del otro, por ejemplo, necesitamos obtener la información de un usuario y en función de ese usuario obtener sus movimientos bancarios. Vamos a ver un ejemplo:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">CompletableFuture&lt;User> getUserDetail(String userId) {
+	return CompletableFuture.supplyAsync(() -> {
+		return UserService.getDetails(userId);
+	});	
+}
+
+CompletableFuture&lt;List&lt;Transaction>> getTransactions(User user) {
+	return CompletableFuture.supplyAsync(() -> {
+		return TransactionService.getTransactions(user);
+	});
+}</pre>
+
+
+
+<p>En el caso anterior el segundo futuro depende del primero, por lo que si queremos invocar ambos y componer la llamada podemos hacer uso de thenCompose():</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">CompletableFuture&lt;List&lt;Transaction>> result = getUserDetail(userId)
+.thenCompose(user -> getTransactions(user));</pre>
+
+
+
+<p>Aunque <strong>podemos hacer uso de thenApply para sustituir thenCompose()</strong> para el ejemplo anterior, podríamos decir que <strong>lo más apropiado es thenCompose, además usaremos thenCompose() cuando podamos pasar como parámetro el estado anterior de las llamadas</strong>. </p>
+
+
+
+<h3 class="wp-block-heading">Uso de thenCombine() para combinar futuros independientes</h3>
+
+
+
+<p>Con el uso de thenCombine() podemos ejecutar dos completableFutures de manera independiente y luego combinarlos para realizar algún proceso u obtener algún resultado. </p>
+
+
+
+<p>thenCombine es una función que acepta dos argumentos de tipo CompletableFuture.</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">CompletableFuture&lt;String> completableFuture 
+  = CompletableFuture.supplyAsync(() -> "Nice to")
+    .thenCombine(CompletableFuture.supplyAsync(
+      () -> " meet you"), (k1, k2) -> k1 + k2));
+
+</pre>
+
+
+
+<p>La ejecución anterior cuando hagamos .get() devolverá «Nice to meet you», se ha realizado una unión de los dos futuros pasados por parámetro.</p>
+
+
+
+<h2 class="wp-block-heading">Ejecución de Futuros en paralelo con anyOf() y allOf()</h2>
+
+
+
+<p>Para aquellos casos en los que necesitamos ejecutar mútiples futuros en paralelo, por lo general vamos a  esperar por la ejecución de todos y a continuación procesar y/o combinar sus resultados.</p>
+
+
+
+<p>Para los casos en las que necesitamos ejecutar futuros en paralelo y procesar el resultado de todos podemos hacer uso de allOf() y para aquellos casos en los que únicamente esperamos por cualquiera haremos uso de anyOf(). Vamos a ver usos de allOf() y anyOf() para entenderlo mejor: </p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">CompletableFuture&lt;String> future1  
+  = CompletableFuture.supplyAsync(() -> "Nice");
+CompletableFuture&lt;String> future2  
+  = CompletableFuture.supplyAsync(() -> "to");
+CompletableFuture&lt;String> future3  
+  = CompletableFuture.supplyAsync(() -> "meet");
+CompletableFuture&lt;String> future4  
+  = CompletableFuture.supplyAsync(() -> "you");
+
+CompletableFuture&lt;Void> allOfFutures 
+  = CompletableFuture.allOf(future1, future2, future3, future4);</pre>
+
+
+
+<p>En el ejemplo anterior hemos combinado todos los futuros una vez completados, pero <strong>allOf()</strong> nos devuelve void, por lo que si queremos obtener el valor de ellos podemos o ejecutar uno a uno, o hacer uso de join, con lo que obtenemos el valor, por ejemplo:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">String allOfFutures = Stream.of(future1, future2, future3, future4)
+  .map(CompletableFuture::join)
+  .collect(Collectors.joining(" "));</pre>
+
+
+
+<p>El ejemplo anterior nos devolverá Nice to meet you. Al hacer uso de CompletableFuture si algún futuro no termina bien se lanzará una excepción.</p>
+
+
+
+<p>Si por el contrario no queremos esperar a que todos los futuros ejecutados terminen, podemos hacer uso de <strong>anyOf()</strong>, con lo que el primer futuro que termine será el que se devuelva. Por ejemplo:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">CompletableFuture&lt;String> future1  
+  = CompletableFuture.supplyAsync(() -> "Nice");
+CompletableFuture&lt;String> future2  
+  = CompletableFuture.supplyAsync(() -> "to");
+CompletableFuture&lt;String> future3  
+  = CompletableFuture.supplyAsync(() -> "meet");
+CompletableFuture&lt;String> future4  
+  = CompletableFuture.supplyAsync(() -> "you");
+
+CompletableFuture&lt;Object> anyFuture 
+  = CompletableFuture.anyOf(future1, future2, future3, future4);
+
+System.out.println(anyFuture.get()); // Result of future2
+</pre>
+
+
+
+<p>El código anterior se mostrará el que ha tardado menos en ejecutarse, en las pruebas fue el future2.</p>
+
+
+
+<h2 class="wp-block-heading">Gestión de Excepciones en CompletableFuture</h2>
+
+
+
+<p>Cuando estamos trabajando con futuros es necesario realizar tratamiento de excepciones para evitar propagar errores no controlados o no deseados. </p>
+
+
+
+<p>Cuando queremos capturar y tratar errores con CompletableFutures vamos a hacer uso de handle(). Este método recibe dos parámetros, el resultado de la ejecución si termina con éxito y la excepción a lanzar si hay algún error en algún paso del futuro. </p>
+
+
+
+<p>Vamos a ver el uso de <strong>handle()</strong> con un ejemplo:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">User user = null;
+
+CompletableFuture&lt;User> completableFuture  
+  =  CompletableFuture.supplyAsync(() -> {
+      if (user == null) {
+          throw new RuntimeException("User cannot be null");
+      }
+      return user;
+  }).handle((s, t) -> s != null ? s : new User());
+
+assertEquals(new User(), completableFuture.get());</pre>
+
+
+
+<p>En el ejemplo anterior hemos tratado la excepción que se produce devolviendo un new User(). Si en cambio queremos realizar un tratamiento lo más parecido a la programación síncrona, podemos hacer uso de <strong>completeExceptionally</strong>().</p>
+
+
+
+<p>Con <a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/util/concurrent/CompletableFuture.html#completeExceptionally(java.lang.Throwable)">completeExceptionally</a>() podremos devolver la excepción que se ha producido, si y solo sí todavía  la ejecución no ha terminado. </p>
+
+
+
+<p>En el ejemplo siguiente, si el future.get() se ejecuta antes de terminar el CompletableFuture se devolverá una RuntimeExcepcion, en cambio si ha terminado se ejecutará y saldrá por pantalla sayHi.</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">CompletableFuture&lt;String> future = CompletableFuture.completedFuture("say Hi");
+
+future.completeExceptionally(new RuntimeException("nooooooo"));
+System.out.println(future.get());</pre>
+
+
+
+<p>En cambio si queremos lanzar la excepción independientemente del estado podemos hacer uso de <strong><a href="https://docs.oracle.com/en/java/javase/16/docs/api/java.base/java/util/concurrent/CompletableFuture.html#obtrudeException(java.lang.Throwable)">obtrudeException</a>,</strong> con el siguiente código siempre se ejecutaría la excepción:</p>
+
+
+
+<pre class="EnlighterJSRAW" data-enlighter-language="generic" data-enlighter-theme="" data-enlighter-highlight="" data-enlighter-linenumbers="" data-enlighter-lineoffset="" data-enlighter-title="" data-enlighter-group="">CompletableFuture&lt;String> future = CompletableFuture.completedFuture("say Hi");
+
+future.completeExceptionally(new RuntimeException("nooooooo"));
+System.out.println(future.get());</pre>
+
+
+
+<h2 class="wp-block-heading">Conclusión</h2>
+
+
+
+<p>En esta entrada sobre <strong>Uso de CompletableFuture en Java</strong>, hemos profundizado sobre el uso de futuros en Java y como nos pueden ayudar en procesos paralelos y asíncronos. Un aspecto a tener en cuenta cuando hagamos uso de futuros será la creación o no de un Executor propio para pasarlo como parámetro al CompletableFuture.</p>
+
+
+
+<p><div style="padding: 1.2em; margin-top: 50px; border: 0.25em solid #f9ac85;"><p>Si necesitas más información puedes escribirnos un comentario o un correo electrónico a <strong>refactorizando.web@gmail.com</strong> o también nos puedes contactar por nuestras redes sociales <strong><a href="https://www.facebook.com/refactorizando">Facebook</a></strong> o <strong><a href="https://twitter.com/refactorizando">twitter</a></strong> y te ayudaremos encantados!</p></div></p>
+<div class='mailmunch-forms-after-post' style='display: none !important;'></div><br/><div class='heateorSssClear'></div><div  class='heateor_sss_sharing_container heateor_sss_horizontal_sharing' heateor-sss-data-href='https://refactorizando.com/uso-de-completablefuture-en-java/'><div class='heateor_sss_sharing_title' style="font-weight:bold" ></div><ul class="heateor_sss_sharing_ul"><li class="heateorSssSharingRound"><i style="width:73px;height:33px;" alt="Facebook" Title="Facebook" class="heateorSssSharing heateorSssFacebookBackground" onclick='heateorSssPopup("https://www.facebook.com/sharer/sharer.php?u=https%3A%2F%2Frefactorizando.com%2Fuso-de-completablefuture-en-java%2F")'><ss style="display:block;" class="heateorSssSharingSvg heateorSssFacebookSvg"></ss></i></li><li class="heateorSssSharingRound"><i style="width:73px;height:33px;" alt="Twitter" Title="Twitter" class="heateorSssSharing heateorSssTwitterBackground" onclick='heateorSssPopup("http://twitter.com/intent/tweet?text=Uso%20de%20CompletableFuture%20en%20Java&url=https%3A%2F%2Frefactorizando.com%2Fuso-de-completablefuture-en-java%2F")'><ss style="display:block;" class="heateorSssSharingSvg heateorSssTwitterSvg"></ss></i></li><li class="heateorSssSharingRound"><i style="width:73px;height:33px;" alt="Linkedin" Title="Linkedin" class="heateorSssSharing heateorSssLinkedinBackground" onclick='heateorSssPopup("http://www.linkedin.com/shareArticle?mini=true&url=https%3A%2F%2Frefactorizando.com%2Fuso-de-completablefuture-en-java%2F&title=Uso%20de%20CompletableFuture%20en%20Java")'><ss style="display:block;" class="heateorSssSharingSvg heateorSssLinkedinSvg"></ss></i></li><li class="heateorSssSharingRound"><i style="width:73px;height:33px;" alt="Whatsapp" Title="Whatsapp" class="heateorSssSharing heateorSssWhatsappBackground" onclick='heateorSssPopup("https://web.whatsapp.com/send?text=Uso%20de%20CompletableFuture%20en%20Java https%3A%2F%2Frefactorizando.com%2Fuso-de-completablefuture-en-java%2F")'><ss style="display:block" class="heateorSssSharingSvg heateorSssWhatsappSvg"></ss></i></li></ul><div class="heateorSssClear"></div></div><div class='heateorSssClear'></div>                    <div class="post-item-metadata entry-meta">
+                <span class="tags-links">Tags: <a href="https://refactorizando.com/tag/get/" rel="tag">.get</a>, <a href="https://refactorizando.com/tag/completablefuture/" rel="tag">completableFuture</a>, <a href="https://refactorizando.com/tag/future/" rel="tag">future</a>, <a href="https://refactorizando.com/tag/runasync/" rel="tag">runAsync</a>, <a href="https://refactorizando.com/tag/thenaccept/" rel="tag">thenaccept</a>, <a href="https://refactorizando.com/tag/thenapply/" rel="tag">thenapply</a></span>            </div>
+                            </div>
+
+
+                                </div>
+                                
+<div class="promotionspace enable-promotionspace">
+
+    <div class="em-reated-posts  col-ten">
+        <div class="row">
+                            <h3 class="related-title">                    
+                    Más historias                </h3>
+                        <div class="row">
+                                    <div class="col-sm-4 latest-posts-grid" data-mh="latest-posts-grid">
+                        <div class="spotlight-post">
+                            <figure class="categorised-article">
+                                <div class="categorised-article-wrapper">
+                                    <div class="data-bg data-bg-hover data-bg-categorised"
+                                         data-background="https://refactorizando.com/wp-content/uploads/2023/06/Convertir-de-Long-a-Int-en-Java-720x380.jpeg">
+                                        <a href="https://refactorizando.com/convertir-long-int-java/"></a>
+                                    </div>
+                                </div>
+                            </figure>
+
+                            <figcaption>
+                                <div class="figure-categories figure-categories-bg">
+                                                                        <ul class="cat-links"><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/lenguajes/java/" alt="Ver todas las publicaciones en Java"> 
+                                 Java
+                             </a>
+                        </li><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/lenguajes/" alt="Ver todas las publicaciones en Lenguajes"> 
+                                 Lenguajes
+                             </a>
+                        </li></ul>                                </div>
+                                <h3 class="article-title article-title-1">
+                                    <a href="https://refactorizando.com/convertir-long-int-java/">
+                                        Convertir long a int en Java                                    </a>
+                                </h3>
+                                <div class="grid-item-metadata">
+                                    
+        <span class="author-links">
+                            <span class="item-metadata posts-date">
+                <i class="far fa-clock"></i>
+                    junio 26, 2023            </span>
+                        
+                <span class="item-metadata posts-author">
+            <a href="https://refactorizando.com/author/admin/">
+                Noel Rodríguez Calle            </a>
+        </span>
+                    </span>
+                                        </div>
+                            </figcaption>
+                        </div>
+                    </div>
+                                    <div class="col-sm-4 latest-posts-grid" data-mh="latest-posts-grid">
+                        <div class="spotlight-post">
+                            <figure class="categorised-article">
+                                <div class="categorised-article-wrapper">
+                                    <div class="data-bg data-bg-hover data-bg-categorised"
+                                         data-background="https://refactorizando.com/wp-content/uploads/2023/06/@ConditionalOnProperty-con-Spring-720x380.jpeg">
+                                        <a href="https://refactorizando.com/anotacion-spring-conditionalonproperty/"></a>
+                                    </div>
+                                </div>
+                            </figure>
+
+                            <figcaption>
+                                <div class="figure-categories figure-categories-bg">
+                                                                        <ul class="cat-links"><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/framework/" alt="Ver todas las publicaciones en Frameworks"> 
+                                 Frameworks
+                             </a>
+                        </li><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/lenguajes/java/" alt="Ver todas las publicaciones en Java"> 
+                                 Java
+                             </a>
+                        </li><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/lenguajes/" alt="Ver todas las publicaciones en Lenguajes"> 
+                                 Lenguajes
+                             </a>
+                        </li><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/framework/spring-framework/" alt="Ver todas las publicaciones en Spring"> 
+                                 Spring
+                             </a>
+                        </li></ul>                                </div>
+                                <h3 class="article-title article-title-1">
+                                    <a href="https://refactorizando.com/anotacion-spring-conditionalonproperty/">
+                                        Anotación de Spring @ConditionalOnProperty                                    </a>
+                                </h3>
+                                <div class="grid-item-metadata">
+                                    
+        <span class="author-links">
+                            <span class="item-metadata posts-date">
+                <i class="far fa-clock"></i>
+                    junio 19, 2023            </span>
+                        
+                <span class="item-metadata posts-author">
+            <a href="https://refactorizando.com/author/admin/">
+                Noel Rodríguez Calle            </a>
+        </span>
+                    </span>
+                                        </div>
+                            </figcaption>
+                        </div>
+                    </div>
+                                    <div class="col-sm-4 latest-posts-grid" data-mh="latest-posts-grid">
+                        <div class="spotlight-post">
+                            <figure class="categorised-article">
+                                <div class="categorised-article-wrapper">
+                                    <div class="data-bg data-bg-hover data-bg-categorised"
+                                         data-background="https://refactorizando.com/wp-content/uploads/2023/06/Interceptores-en-RestTemplate-720x380.jpeg">
+                                        <a href="https://refactorizando.com/crear-interceptor-en-resttemplate/"></a>
+                                    </div>
+                                </div>
+                            </figure>
+
+                            <figcaption>
+                                <div class="figure-categories figure-categories-bg">
+                                                                        <ul class="cat-links"><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/framework/" alt="Ver todas las publicaciones en Frameworks"> 
+                                 Frameworks
+                             </a>
+                        </li><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/lenguajes/java/" alt="Ver todas las publicaciones en Java"> 
+                                 Java
+                             </a>
+                        </li><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/lenguajes/" alt="Ver todas las publicaciones en Lenguajes"> 
+                                 Lenguajes
+                             </a>
+                        </li><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/framework/spring-framework/" alt="Ver todas las publicaciones en Spring"> 
+                                 Spring
+                             </a>
+                        </li></ul>                                </div>
+                                <h3 class="article-title article-title-1">
+                                    <a href="https://refactorizando.com/crear-interceptor-en-resttemplate/">
+                                        Crear interceptor en  RestTemplate                                    </a>
+                                </h3>
+                                <div class="grid-item-metadata">
+                                    
+        <span class="author-links">
+                            <span class="item-metadata posts-date">
+                <i class="far fa-clock"></i>
+                    junio 12, 2023            </span>
+                        
+                <span class="item-metadata posts-author">
+            <a href="https://refactorizando.com/author/admin/">
+                Noel Rodríguez Calle            </a>
+        </span>
+                    </span>
+                                        </div>
+                            </figcaption>
+                        </div>
+                    </div>
+                            </div>
+
+        </div>
+    </div>
+</div>
+                                
+<div id="comments" class="comments-area">
+
+		<div id="respond" class="comment-respond">
+		<h3 id="reply-title" class="comment-reply-title">Deja una respuesta <small><a rel="nofollow" id="cancel-comment-reply-link" href="/uso-de-completablefuture-en-java/#respond" style="display:none;">Cancelar la respuesta</a></small></h3><form action="https://refactorizando.com/wp-comments-post.php" method="post" id="commentform" class="comment-form" novalidate><p class="comment-notes"><span id="email-notes">Tu dirección de correo electrónico no será publicada.</span> <span class="required-field-message">Los campos obligatorios están marcados con <span class="required">*</span></span></p><p class="comment-form-comment"><label for="comment">Comentario <span class="required">*</span></label> <textarea id="comment" name="comment" cols="45" rows="8" maxlength="65525" required></textarea></p><p class="comment-form-author"><label for="author">Nombre <span class="required">*</span></label> <input id="author" name="author" type="text" value="" size="30" maxlength="245" autocomplete="name" required /></p>
+<p class="comment-form-email"><label for="email">Correo electrónico <span class="required">*</span></label> <input id="email" name="email" type="email" value="" size="30" maxlength="100" aria-describedby="email-notes" autocomplete="email" required /></p>
+<p class="comment-form-url"><label for="url">Web</label> <input id="url" name="url" type="url" value="" size="30" maxlength="200" autocomplete="url" /></p>
+<p class="comment-form-cookies-consent"><input id="wp-comment-cookies-consent" name="wp-comment-cookies-consent" type="checkbox" value="yes" /> <label for="wp-comment-cookies-consent">Guarda mi nombre, correo electrónico y web en este navegador para la próxima vez que comente.</label></p>
+<p class="form-submit"><input name="submit" type="submit" id="submit" class="submit" value="Publicar el comentario" /> <input type='hidden' name='comment_post_ID' value='3528' id='comment_post_ID' />
+<input type='hidden' name='comment_parent' id='comment_parent' value='0' />
+</p></form>	</div>
+	
+</div>
+                            </article>
+                        
+                    </main>
+                </div>
+                                <aside id="secondary" class="widget-area aft-sticky-sidebar">
+	
+		<div id="recent-posts-5" class="widget covernews-widget widget_recent_entries">
+		<h2 class="widget-title widget-title-1"><span>Últimas entradas</span></h2>
+		<ul>
+											<li>
+					<a href="https://refactorizando.com/handlerinterceptor-vs-filter-en-spring-2/">HandlerInterceptor vs Filter en Spring</a>
+									</li>
+											<li>
+					<a href="https://refactorizando.com/exclusion-urls-filtro-spring/">Excluir URLs con filtro en Spring</a>
+									</li>
+											<li>
+					<a href="https://refactorizando.com/guia-dirtiescontext-spring/">Guía de DirtiesContext en Spring</a>
+									</li>
+											<li>
+					<a href="https://refactorizando.com/convertir-long-int-java/">Convertir long a int en Java</a>
+									</li>
+					</ul>
+
+		</div></aside>
+            </div>
+
+
+</div>
+
+<div class="af-main-banner-latest-posts grid-layout">
+    <div class="container">
+        <div class="row">
+
+    <div class="widget-title-section">
+                    <h4 class="widget-title header-after1">
+                        <span class="header-after">                            
+                            Te pueden interesar                            </span>
+            </h4>
+        
+    </div>
+    <div class="row">
+                <div class="col-sm-15 latest-posts-grid" data-mh="latest-posts-grid">
+                <div class="spotlight-post">
+                    <figure class="categorised-article inside-img">
+                        <div class="categorised-article-wrapper">
+                            <div class="data-bg data-bg-hover data-bg-categorised"
+                                 data-background="https://refactorizando.com/wp-content/uploads/2023/07/HanlderInterceptor-vs-Filter-en-Spring-675x304.jpeg">
+                                <a href="https://refactorizando.com/handlerinterceptor-vs-filter-en-spring-2/"></a>
+                            </div>
+                        </div>
+                                                <div class="figure-categories figure-categories-bg">
+                            
+                            <ul class="cat-links"><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/framework/" alt="Ver todas las publicaciones en Frameworks"> 
+                                 Frameworks
+                             </a>
+                        </li><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/framework/spring-framework/" alt="Ver todas las publicaciones en Spring"> 
+                                 Spring
+                             </a>
+                        </li></ul>                        </div>
+                    </figure>
+
+                    <figcaption>
+                        
+                        <h3 class="article-title article-title-1">
+                            <a href="https://refactorizando.com/handlerinterceptor-vs-filter-en-spring-2/">
+                                HandlerInterceptor vs Filter en Spring                            </a>
+                        </h3>
+                        <div class="grid-item-metadata">
+                            
+        <span class="author-links">
+                            <span class="item-metadata posts-date">
+                <i class="far fa-clock"></i>
+                    julio 11, 2023            </span>
+                        
+                <span class="item-metadata posts-author">
+            <a href="https://refactorizando.com/author/admin/">
+                Noel Rodríguez Calle            </a>
+        </span>
+                    </span>
+                                </div>
+                    </figcaption>
+                </div>
+            </div>
+                    <div class="col-sm-15 latest-posts-grid" data-mh="latest-posts-grid">
+                <div class="spotlight-post">
+                    <figure class="categorised-article inside-img">
+                        <div class="categorised-article-wrapper">
+                            <div class="data-bg data-bg-hover data-bg-categorised"
+                                 data-background="https://refactorizando.com/wp-content/uploads/2023/06/Excluir-URLs-con-filtro-en-Spring-675x400.jpeg">
+                                <a href="https://refactorizando.com/exclusion-urls-filtro-spring/"></a>
+                            </div>
+                        </div>
+                                                <div class="figure-categories figure-categories-bg">
+                            
+                            <ul class="cat-links"><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/framework/" alt="Ver todas las publicaciones en Frameworks"> 
+                                 Frameworks
+                             </a>
+                        </li><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/framework/spring-framework/" alt="Ver todas las publicaciones en Spring"> 
+                                 Spring
+                             </a>
+                        </li></ul>                        </div>
+                    </figure>
+
+                    <figcaption>
+                        
+                        <h3 class="article-title article-title-1">
+                            <a href="https://refactorizando.com/exclusion-urls-filtro-spring/">
+                                Excluir URLs con filtro en Spring                            </a>
+                        </h3>
+                        <div class="grid-item-metadata">
+                            
+        <span class="author-links">
+                            <span class="item-metadata posts-date">
+                <i class="far fa-clock"></i>
+                    julio 3, 2023            </span>
+                        
+                <span class="item-metadata posts-author">
+            <a href="https://refactorizando.com/author/admin/">
+                Noel Rodríguez Calle            </a>
+        </span>
+                    </span>
+                                </div>
+                    </figcaption>
+                </div>
+            </div>
+                    <div class="col-sm-15 latest-posts-grid" data-mh="latest-posts-grid">
+                <div class="spotlight-post">
+                    <figure class="categorised-article inside-img">
+                        <div class="categorised-article-wrapper">
+                            <div class="data-bg data-bg-hover data-bg-categorised"
+                                 data-background="https://refactorizando.com/wp-content/uploads/2023/06/Guia-de-DirtiesContext-en-Spring-675x400.jpeg">
+                                <a href="https://refactorizando.com/guia-dirtiescontext-spring/"></a>
+                            </div>
+                        </div>
+                                                <div class="figure-categories figure-categories-bg">
+                            
+                            <ul class="cat-links"><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/framework/" alt="Ver todas las publicaciones en Frameworks"> 
+                                 Frameworks
+                             </a>
+                        </li><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/framework/spring-framework/" alt="Ver todas las publicaciones en Spring"> 
+                                 Spring
+                             </a>
+                        </li></ul>                        </div>
+                    </figure>
+
+                    <figcaption>
+                        
+                        <h3 class="article-title article-title-1">
+                            <a href="https://refactorizando.com/guia-dirtiescontext-spring/">
+                                Guía de DirtiesContext en Spring                            </a>
+                        </h3>
+                        <div class="grid-item-metadata">
+                            
+        <span class="author-links">
+                            <span class="item-metadata posts-date">
+                <i class="far fa-clock"></i>
+                    junio 30, 2023            </span>
+                        
+                <span class="item-metadata posts-author">
+            <a href="https://refactorizando.com/author/admin/">
+                Noel Rodríguez Calle            </a>
+        </span>
+                    </span>
+                                </div>
+                    </figcaption>
+                </div>
+            </div>
+                    <div class="col-sm-15 latest-posts-grid" data-mh="latest-posts-grid">
+                <div class="spotlight-post">
+                    <figure class="categorised-article inside-img">
+                        <div class="categorised-article-wrapper">
+                            <div class="data-bg data-bg-hover data-bg-categorised"
+                                 data-background="https://refactorizando.com/wp-content/uploads/2023/06/Convertir-de-Long-a-Int-en-Java-675x450.jpeg">
+                                <a href="https://refactorizando.com/convertir-long-int-java/"></a>
+                            </div>
+                        </div>
+                                                <div class="figure-categories figure-categories-bg">
+                            
+                            <ul class="cat-links"><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/lenguajes/java/" alt="Ver todas las publicaciones en Java"> 
+                                 Java
+                             </a>
+                        </li><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/lenguajes/" alt="Ver todas las publicaciones en Lenguajes"> 
+                                 Lenguajes
+                             </a>
+                        </li></ul>                        </div>
+                    </figure>
+
+                    <figcaption>
+                        
+                        <h3 class="article-title article-title-1">
+                            <a href="https://refactorizando.com/convertir-long-int-java/">
+                                Convertir long a int en Java                            </a>
+                        </h3>
+                        <div class="grid-item-metadata">
+                            
+        <span class="author-links">
+                            <span class="item-metadata posts-date">
+                <i class="far fa-clock"></i>
+                    junio 26, 2023            </span>
+                        
+                <span class="item-metadata posts-author">
+            <a href="https://refactorizando.com/author/admin/">
+                Noel Rodríguez Calle            </a>
+        </span>
+                    </span>
+                                </div>
+                    </figcaption>
+                </div>
+            </div>
+                    <div class="col-sm-15 latest-posts-grid" data-mh="latest-posts-grid">
+                <div class="spotlight-post">
+                    <figure class="categorised-article inside-img">
+                        <div class="categorised-article-wrapper">
+                            <div class="data-bg data-bg-hover data-bg-categorised"
+                                 data-background="https://refactorizando.com/wp-content/uploads/2023/06/@ConditionalOnProperty-con-Spring-675x400.jpeg">
+                                <a href="https://refactorizando.com/anotacion-spring-conditionalonproperty/"></a>
+                            </div>
+                        </div>
+                                                <div class="figure-categories figure-categories-bg">
+                            
+                            <ul class="cat-links"><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/framework/" alt="Ver todas las publicaciones en Frameworks"> 
+                                 Frameworks
+                             </a>
+                        </li><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/lenguajes/java/" alt="Ver todas las publicaciones en Java"> 
+                                 Java
+                             </a>
+                        </li><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/lenguajes/" alt="Ver todas las publicaciones en Lenguajes"> 
+                                 Lenguajes
+                             </a>
+                        </li><li class="meta-category">
+                             <a class="covernews-categories category-color-1" href="https://refactorizando.com/category/framework/spring-framework/" alt="Ver todas las publicaciones en Spring"> 
+                                 Spring
+                             </a>
+                        </li></ul>                        </div>
+                    </figure>
+
+                    <figcaption>
+                        
+                        <h3 class="article-title article-title-1">
+                            <a href="https://refactorizando.com/anotacion-spring-conditionalonproperty/">
+                                Anotación de Spring @ConditionalOnProperty                            </a>
+                        </h3>
+                        <div class="grid-item-metadata">
+                            
+        <span class="author-links">
+                            <span class="item-metadata posts-date">
+                <i class="far fa-clock"></i>
+                    junio 19, 2023            </span>
+                        
+                <span class="item-metadata posts-author">
+            <a href="https://refactorizando.com/author/admin/">
+                Noel Rodríguez Calle            </a>
+        </span>
+                    </span>
+                                </div>
+                    </figcaption>
+                </div>
+            </div>
+                </div>
+    </div>
+    </div>
+</div>
+
+<footer class="site-footer">
+            <div class="primary-footer">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="row">
+                                                            <div class="primary-footer-area footer-first-widgets-section col-md-4 col-sm-12">
+                                    <section class="widget-area">
+                                            <div id="text-4" class="widget covernews-widget widget_text">			<div class="textwidget"><div id="104723-6"><script src="//ads.themoneytizer.com/s/gen.js?type=6"></script><script src="//ads.themoneytizer.com/s/requestform.js?siteId=104723&#038;formatId=6"></script></div>
+</div>
+		</div>                                    </section>
+                                </div>
+                            
+                        
+                                                                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+            <div class="secondary-footer">
+        <div class="container">
+            <div class="row">
+                                    <div class="col-sm-12">
+                        <div class="footer-nav-wrapper">
+                        <div class="footer-navigation"><ul id="footer-menu" class="menu"><li id="menu-item-32" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-32"><a href="https://www.facebook.com/refactorizando">Facebook</a></li>
+<li id="menu-item-33" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-33"><a href="https://twitter.com/refactorizando">Twitter</a></li>
+<li id="menu-item-34" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-34"><a href="https://www.instagram.com/refactorizando">Instagram</a></li>
+<li id="menu-item-35" class="menu-item menu-item-type-custom menu-item-object-custom menu-item-35"><a href="mailto:refactorizando.web@gmail.com">Email</a></li>
+</ul></div>                        </div>
+                    </div>
+                                                </div>
+        </div>
+    </div>
+            <div class="site-info">
+        <div class="container">
+            <div class="row">
+                <div class="col-sm-12">
+                                                                Refactorizando Copyright © Todos los derechos reservados.                                                           
+                </div>
+            </div>
+        </div>
+    </div>
+</footer>
+</div>
+<a id="scroll-up" class="secondary-color">
+    <i class="fa fa-angle-up"></i>
+</a>
+
+  
+  <aside id="moove_gdpr_cookie_info_bar" class="moove-gdpr-info-bar-hidden moove-gdpr-align-center moove-gdpr-dark-scheme gdpr_infobar_postion_bottom" aria-label="Banner de cookies RGPD" style="display: none;">
+    <div class="moove-gdpr-info-bar-container">
+      <div class="moove-gdpr-info-bar-content">
+        
+<div class="moove-gdpr-cookie-notice">
+  <p>Utilizamos cookies para ofrecerte la mejor experiencia en nuestra web.</p><p>Puedes aprender más sobre qué cookies utilizamos o desactivarlas en los <button  data-href="#moove_gdpr_cookie_modal" class="change-settings-button">ajustes</button>.</p></div>
+        
+<div class="moove-gdpr-button-holder">
+		  <button class="mgbutton moove-gdpr-infobar-allow-all gdpr-fbo-0" aria-label="Aceptar" >Aceptar</button>
+	  </div>
+      </div>
+      
+    </div>
+    
+  </aside>
+  
+  
+<script   type="text/javascript" src="https://refactorizando.com/wp-content/cache/asset-cleanup/js/item/covernews-navigation-vaaf61af7f1d0dda5dae7e155fc90b54b5344922b.js" id="covernews-navigation-js"></script>
+<script   type="text/javascript" src="https://refactorizando.com/wp-content/cache/asset-cleanup/js/item/covernews-skip-link-focus-fix-vf37977de04b86eff4a562b1e6742aacb8f82cd64.js" id="covernews-skip-link-focus-fix-js"></script>
+<script   type="text/javascript" src="https://refactorizando.com/wp-content/themes/covernews/assets/slick/js/slick.min.js?ver=6.4.3" id="slick-js"></script>
+<script   type="text/javascript" src="https://refactorizando.com/wp-content/themes/covernews/assets/bootstrap/js/bootstrap.min.js?ver=6.4.3" id="bootstrap-js"></script>
+<script   type="text/javascript" src="https://refactorizando.com/wp-content/themes/covernews/assets/jquery-match-height/jquery.matchHeight.min.js?ver=6.4.3" id="matchheight-js"></script>
+<script   type="text/javascript" src="https://refactorizando.com/wp-content/cache/asset-cleanup/js/item/marquee-vbe1603fd3e2cb4c9fe9c038890beb4753deda68a.js" id="marquee-js"></script>
+<script   type="text/javascript" src="https://refactorizando.com/wp-content/themes/covernews/assets/theiaStickySidebar/theia-sticky-sidebar.min.js?ver=6.4.3" id="sticky-sidebar-js"></script>
+<script   type="text/javascript" src="https://refactorizando.com/wp-content/cache/asset-cleanup/js/item/covernews-script-vf8500382fa2929b4e390b1254cbe3a1b6471d96b.js" id="covernews-script-js"></script>
+<script   type="text/javascript" src="https://refactorizando.com/wp-content/cache/asset-cleanup/js/item/covernews-fixed-header-script-v13264a086f9a88673fff4730ef51520c829b5eda.js" id="covernews-fixed-header-script-js"></script>
+<script   type="text/javascript" src="https://refactorizando.com/wp-includes/js/comment-reply.min.js?ver=6.4.3" id="comment-reply-js" async="async" data-wp-strategy="async"></script>
+<script   type="text/javascript" id="heateor_sss_sharing_js-js-before">
+/* <![CDATA[ */
+function heateorSssLoadEvent(e) {var t=window.onload;if (typeof window.onload!="function") {window.onload=e}else{window.onload=function() {t();e()}}};	var heateorSssSharingAjaxUrl = 'https://refactorizando.com/wp-admin/admin-ajax.php', heateorSssCloseIconPath = 'https://refactorizando.com/wp-content/plugins/sassy-social-share/public/../images/close.png', heateorSssPluginIconPath = 'https://refactorizando.com/wp-content/plugins/sassy-social-share/public/../images/logo.png', heateorSssHorizontalSharingCountEnable = 0, heateorSssVerticalSharingCountEnable = 0, heateorSssSharingOffset = -10; var heateorSssMobileStickySharingEnabled = 0;var heateorSssCopyLinkMessage = "Enlace copiado.";var heateorSssUrlCountFetched = [], heateorSssSharesText = 'Compartidos', heateorSssShareText = 'Compartir';function heateorSssPopup(e) {window.open(e,"popUpWindow","height=400,width=600,left=400,top=100,resizable,scrollbars,toolbar=0,personalbar=0,menubar=no,location=no,directories=no,status")};var heateorSssWhatsappShareAPI = "web";
+/* ]]> */
+</script>
+<script   type="text/javascript" src="https://refactorizando.com/wp-content/cache/asset-cleanup/js/item/heateor_sss_sharing_js-vbcdcc8fbb1a111abf106402f85eef59703b791eb.js" id="heateor_sss_sharing_js-js"></script>
+<script   type="text/javascript" src="https://refactorizando.com/wp-content/plugins/enlighter/cache/enlighterjs.min.js?ver=sQdrEJlqGflVSo+" id="enlighterjs-js"></script>
+<script   type="text/javascript" id="enlighterjs-js-after">
+/* <![CDATA[ */
+!function(e,n){if("undefined"!=typeof EnlighterJS){var o={"selectors":{"block":"pre.EnlighterJSRAW","inline":"code.EnlighterJSRAW"},"options":{"indent":4,"ampersandCleanup":true,"linehover":true,"rawcodeDbclick":false,"textOverflow":"break","linenumbers":true,"theme":"classic","language":"generic","retainCssClasses":false,"collapse":false,"toolbarOuter":"","toolbarTop":"{BTN_RAW}{BTN_COPY}{BTN_WINDOW}{BTN_WEBSITE}","toolbarBottom":""}};(e.EnlighterJSINIT=function(){EnlighterJS.init(o.selectors.block,o.selectors.inline,o.options)})()}else{(n&&(n.error||n.log)||function(){})("Error: EnlighterJS resources not loaded yet!")}}(window,console);
+/* ]]> */
+</script>
+<script   type="text/javascript" src="https://refactorizando.com/wp-content/plugins/wp-smushit/app/assets/js/smush-lazy-load.min.js?ver=3.12.6" id="smush-lazy-load-js"></script>
+<script type="text/javascript" id="moove_gdpr_frontend-js-extra">
+/* <![CDATA[ */
+var moove_frontend_gdpr_scripts = {"ajaxurl":"https:\/\/refactorizando.com\/wp-admin\/admin-ajax.php","post_id":"3528","plugin_dir":"https:\/\/refactorizando.com\/wp-content\/plugins\/gdpr-cookie-compliance","show_icons":"all","is_page":"","ajax_cookie_removal":"false","strict_init":"1","enabled_default":{"third_party":0,"advanced":0},"geo_location":"false","force_reload":"false","is_single":"1","hide_save_btn":"false","current_user":"0","cookie_expiration":"365","script_delay":"2000","close_btn_action":"1","close_btn_rdr":"","scripts_defined":"{\"cache\":true,\"header\":\"\",\"body\":\"\",\"footer\":\"\",\"thirdparty\":{\"header\":\"\",\"body\":\"\",\"footer\":\"\"},\"advanced\":{\"header\":\"\",\"body\":\"\",\"footer\":\"\"}}","gdpr_scor":"true","wp_lang":""};
+/* ]]> */
+</script>
+<script   type="text/javascript" src="https://refactorizando.com/wp-content/cache/asset-cleanup/js/item/moove_gdpr_frontend-v8ff66de35f1b0683180544946730a7d125c9ebd3.js" id="moove_gdpr_frontend-js"></script>
+<script   type="text/javascript" id="moove_gdpr_frontend-js-after">
+/* <![CDATA[ */
+var gdpr_consent__strict = "false"
+var gdpr_consent__thirdparty = "false"
+var gdpr_consent__advanced = "false"
+var gdpr_consent__cookies = ""
+/* ]]> */
+</script>
+
+    
+  
+  
+  <div id="moove_gdpr_cookie_modal" class="gdpr_lightbox-hide" role="complementary" aria-label="Pantalla de ajustes RGPD">
+    <div class="moove-gdpr-modal-content moove-clearfix logo-position-left moove_gdpr_modal_theme_v1">
+          
+        <button class="moove-gdpr-modal-close" aria-label="Cerrar los ajustes de cookies RGPD">
+          <span class="gdpr-sr-only">Cerrar los ajustes de cookies RGPD</span>
+          <span class="gdpr-icon moovegdpr-arrow-close"></span>
+        </button>
+            <div class="moove-gdpr-modal-left-content">
+        
+<div class="moove-gdpr-company-logo-holder">
+  <img  alt="Refactorizando"   width="350"  height="233"   data-src="https://refactorizando.com/wp-content/plugins/gdpr-cookie-compliance/dist/images/gdpr-logo.png" class="img-responsive lazyload" src="data:image/gif;base64,R0lGODlhAQABAAAAACH5BAEKAAEALAAAAAABAAEAAAICTAEAOw==" /><noscript><img src="https://refactorizando.com/wp-content/plugins/gdpr-cookie-compliance/dist/images/gdpr-logo.png" alt="Refactorizando"   width="350"  height="233"  class="img-responsive" /></noscript>
+</div>
+        <ul id="moove-gdpr-menu">
+          
+<li class="menu-item-on menu-item-privacy_overview menu-item-selected">
+  <button data-href="#privacy_overview" class="moove-gdpr-tab-nav" aria-label="Resumen de privacidad">
+    <span class="gdpr-nav-tab-title">Resumen de privacidad</span>
+  </button>
+</li>
+
+  <li class="menu-item-strict-necessary-cookies menu-item-off">
+    <button data-href="#strict-necessary-cookies" class="moove-gdpr-tab-nav" aria-label="Cookies estrictamente necesarias">
+      <span class="gdpr-nav-tab-title">Cookies estrictamente necesarias</span>
+    </button>
+  </li>
+
+
+
+
+        </ul>
+        
+<div class="moove-gdpr-branding-cnt">
+  		<a href="https://wordpress.org/plugins/gdpr-cookie-compliance/" rel="noopener noreferrer" target="_blank" class='moove-gdpr-branding'>Powered by&nbsp; <span>GDPR Cookie Compliance</span></a>
+		</div>
+      </div>
+      
+      <div class="moove-gdpr-modal-right-content">
+        <div class="moove-gdpr-modal-title">
+           
+        </div>
+        
+        <div class="main-modal-content">
+
+          <div class="moove-gdpr-tab-content">
+            
+<div id="privacy_overview" class="moove-gdpr-tab-main">
+      <span class="tab-title">Resumen de privacidad</span>
+    <div class="moove-gdpr-tab-main-content">
+  	<p>Esta web utiliza cookies para que podamos ofrecerte la mejor experiencia de usuario posible. La información de las cookies se almacena en tu navegador y realiza funciones tales como reconocerte cuando vuelves a nuestra web o ayudar a nuestro equipo a comprender qué secciones de la web encuentras más interesantes y útiles.</p>
+  	  </div>
+  
+
+</div>
+            
+  <div id="strict-necessary-cookies" class="moove-gdpr-tab-main" style="display:none">
+    <span class="tab-title">Cookies estrictamente necesarias</span>
+    <div class="moove-gdpr-tab-main-content">
+      <p>Las cookies estrictamente necesarias tiene que activarse siempre para que podamos guardar tus preferencias de ajustes de cookies.</p>
+      <div class="moove-gdpr-status-bar ">
+        <div class="gdpr-cc-form-wrap">
+          <div class="gdpr-cc-form-fieldset">
+            <label class="cookie-switch" for="moove_gdpr_strict_cookies">    
+              <span class="gdpr-sr-only">Activar o desactivar las cookies</span>        
+              <input type="checkbox" aria-label="Cookies estrictamente necesarias"  value="check" name="moove_gdpr_strict_cookies" id="moove_gdpr_strict_cookies">
+              <span class="cookie-slider cookie-round" data-text-enable="Activado" data-text-disabled="Desactivado"></span>
+            </label>
+          </div>
+          
+        </div>
+        
+      </div>
+      
+              <div class="moove-gdpr-strict-warning-message" style="margin-top: 10px;">
+          <p>Si desactivas esta cookie no podremos guardar tus preferencias. Esto significa que cada vez que visites esta web tendrás que activar o desactivar las cookies de nuevo.</p>
+        </div>
+        
+                                              
+    </div>
+    
+  </div>
+  
+            
+            
+            
+          </div>
+          
+        </div>
+        
+        <div class="moove-gdpr-modal-footer-content">
+          <div class="moove-gdpr-button-holder">
+			  		<button class="mgbutton moove-gdpr-modal-allow-all button-visible" aria-label="Activar todo">Activar todo</button>
+		  					<button class="mgbutton moove-gdpr-modal-save-settings button-visible" aria-label="Guardar ajustes">Guardar ajustes</button>
+				</div>
+        </div>
+        
+      </div>
+      
+
+      <div class="moove-clearfix"></div>
+
+    </div>
+    
+  </div>
+  
+  
+<noscript><link rel='stylesheet' id='wpacu-combined-google-fonts-css' href='https://fonts.googleapis.com/css?family=Lato:300,400,400italic,700,900|Oswald:300,400,700|Source+Sans+Pro:400,400i,700,700i&amp;subset=latin,latin-ext' type='text/css' media='all' /></noscript>
+
+</body>
+</html>

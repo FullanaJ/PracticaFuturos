@@ -16,7 +16,9 @@ public class Ejercicio3 {
                 "https://refactorizando.com/uso-de-completablefuture-en-java/",
                 "https://refactorizando.com/uso-de-completablefuture-en-java/"
         };
-
+        /*
+          Descarga las paginas y las comprime
+         */
         Ejercicio1 ejercicio1 = new Ejercicio1();
         CompletableFuture<Void> completableFuture = CompletableFuture.runAsync(
                 () -> {
@@ -28,6 +30,9 @@ public class Ejercicio3 {
                     }
                 }
         ).whenComplete(
+                /*
+                  Comprime las paginas descargadas
+                 */
                 (aVoid, throwable) -> {
                     Ejercicio2.ejecute("src\\test", "test.zip");
                 }

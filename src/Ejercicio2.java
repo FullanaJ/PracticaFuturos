@@ -8,13 +8,23 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 public class Ejercicio2 {
-
+    /**
+     * Pide dos paths por consola y ejecuta el metodo ejecute
+     * @param args
+     * @throws IOException
+     */
     public static void main(String[] args) throws IOException {
         String sourceFile = asksForPath();
         String destFile = asksForPath();
         ejecute(sourceFile, destFile);
     }
 
+    /**
+     * ejecuta la compresion de un archivo o directorio sourceFile
+     * y la mueve a destFile
+     * @param sourceFile
+     * @param destFile
+     */
     public static void ejecute(String sourceFile, String destFile) {
         CompletableFuture<Object> completableFuture = CompletableFuture.supplyAsync(
                 () -> {
@@ -49,12 +59,23 @@ public class Ejercicio2 {
         completableFuture.join();
     }
 
+    /**
+     * Pide un path por consola
+     * @return
+     */
     private static String asksForPath() {
         System.out.println("Introduce el Path: ");
         Scanner scanner = new Scanner(System.in);
         return Objects.requireNonNull(scanner.nextLine(), " ");
     }
 
+    /**
+     * Comprime un archivo
+     * @param fileToZip
+     * @param fileName
+     * @param zipOut
+     * @throws IOException
+     */
     public static void zipFile(File fileToZip, String fileName, ZipOutputStream zipOut) throws IOException {
         if (fileToZip.isHidden()) {
             return;

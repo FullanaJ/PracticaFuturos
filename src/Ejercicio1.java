@@ -14,12 +14,20 @@ import java.util.concurrent.CompletableFuture;
 public class Ejercicio1 {
 
     Path path = Path.of("src/pagina.html");
+    /**
+     * Pide una URL por consola
+     * @return
+     */
     private String asksForURL() {
         System.out.println("Introduce la URL: ");
         Scanner scanner = new Scanner(System.in);
         return Objects.requireNonNull(scanner.nextLine()," ");
     }
 
+    /**
+     * Descarga una URL y la guarda en un archivo
+     * @param url
+     */
     public void descargaURL(String url){
 
         CompletableFuture<HttpResponse<String>> completableFuture = CompletableFuture.supplyAsync(
@@ -65,7 +73,10 @@ public class Ejercicio1 {
         completableFuture.join();
     }
 
-
+    /**
+     * Ejecuta la descarga de una URL y la muestra por consola
+     * @param args
+     */
     public static void main(String[] args) {
        Ejercicio1 ejercicio1 = new Ejercicio1();
        ejercicio1.descargaURL(ejercicio1.asksForURL());
